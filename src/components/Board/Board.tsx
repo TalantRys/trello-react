@@ -2,7 +2,29 @@ import classNames from "classnames";
 import styles from "./board.module.scss";
 import Column from "../Column/Column";
 
-const cards = new Array(3).fill(0).map((_, i) => ({ title: `Card ${i + 1}` }));
+interface CardProps {
+  title: string;
+  author: string;
+  description?: string;
+}
+
+let cards: Array<CardProps> = [
+  {
+    title: "",
+    author: "Billy",
+  },
+  {
+    title: "",
+    author: "Carl",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing.",
+  },
+  {
+    title: "",
+    author: "Robert",
+  },
+];
+
+cards = cards.map((card, i) => ({ ...card, title: `Card ${i + 1}` }));
 
 function Board() {
   return (
