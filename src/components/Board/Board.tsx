@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import styles from "./board.module.scss";
-console.log(styles);
+import Card from "../Card/Card";
 
 function Board() {
   return (
@@ -16,11 +16,5 @@ function Board() {
     </div>
   );
 }
-function Card({ title }) {
-  return (
-    <div className={classNames("card", styles.board__item)}>
-      <span>{title}</span>
-    </div>
-  );
-}
+
 export default Board;
