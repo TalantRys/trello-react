@@ -1,12 +1,15 @@
-import './App.scss'
+import "./App.scss";
+import Board from "./components/Board/Board.tsx";
 
 function App() {
-
   return (
     <>
-      <h1>Hello</h1>
+      <div className="container">
+        <h1>Trello</h1>
+      </div>
+      <Board />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,0 +1,22 @@
+@use "@assets/scss/bundle" as *;
+
+.column {
+  background-color: var(--column-bg);
+  padding: 10px;
+  border-radius: 5px;
+  // .column__title
+
+  &__title {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--text-h);
+  }
+
+  // .column__cards
+
+  &__cards {
+    @include flex(column);
+    gap: 10px;
+  }
+}
