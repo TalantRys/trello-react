@@ -4,6 +4,13 @@
   background-color: var(--column-bg);
   padding: 10px;
   border-radius: 5px;
+
+  // .column__header
+  &__header{
+    @include flex($jc: space-between);
+    gap: 5px;
+  }
+
   // .column__title
 
   &__title {
