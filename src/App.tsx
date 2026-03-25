@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <div className="container">
-        <h1>Trello</h1>
+        <h1 style={{fontSize:"3rem", fontWeight:"bold"}}>Trello</h1>
       </div>
       <Board />
     </>

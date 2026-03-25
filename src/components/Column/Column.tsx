@@ -1,5 +1,6 @@
 import styles from "./column.module.scss";
 import Card from "../Card/Card";
+import { useState, type ChangeEvent, type ChangeEventHandler } from "react";
 
 interface CardProps {
   title: string;
@@ -10,12 +11,45 @@ interface CardProps {
 interface ColumnProps {
   title: string;
   cards: Array<CardProps>;
+  columns: { id: number; title: string }[];
+  onSetColumns: CallableFunction;
 }
 
-export default function Column({ title, cards }: ColumnProps) {
+export default function Column({
+  title,
+  cards,
+  columns,
+  onSetColumns,
+}: ColumnProps) {
+  const [isEditTitle, setIsEditTitle] = useState(false);
+
+  function handleChange(event: ChangeEvent) {
+    const newTitle = event.target;
+    const newColumns = columns.map((column) => {
+      if (column.title === title) {
+        return {
+          ...column,
+          title: newTitle,
+        };
+      }
+
+      return column;
+    });
+
+    onSetColumns(newColumns);
+  }
   return (
     <div className={styles.column}>
-      <p className={styles.column__title}>{title}</p>
+      <div className={styles.column__header}>
+        {isEditTitle ? (
+          <input type="text" value={title} onChange={handleChange} />
+        ) : (
+          <p className={styles.column__title}>{title}</p>
+        )}
+        <button type="button" onClick={() => setIsEditTitle(true)}>
+          {!isEditTitle ? "Edit" : "X"}
+        </button>
+      </div>
       <div className={styles.column__cards}>
         {cards.map((card, i) => (
           <Card
