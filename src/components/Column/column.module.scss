@@ -8,6 +8,7 @@
   // .column__header
   &__header{
     @include flex($jc: space-between);
+    gap: 5px;
   }
 
   // .column__title
