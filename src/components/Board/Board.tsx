@@ -2,6 +2,7 @@ import classNames from "classnames";
 import styles from "./board.module.scss";
 import Column from "../Column/Column";
 import { useState } from "react";
+import ModalProvider from "../ModalProvider/ModalProvider";
 
 interface CardProps {
   title: string;
@@ -36,23 +37,33 @@ const columnsArr: { id: number; title: string }[] = [
 
 function Board() {
   const [columns, setColumns] = useState(columnsArr);
+  const [showModal, setShowModal] = useState(true);
 
   return (
-    <div className={styles.board}>
-      <div className={classNames(styles.board__container, "container")}>
-        <div className={styles.board__items}>
-          {columns.map((column) => (
-            <Column
-              key={column.id}
-              title={column.title}
-              cards={cards}
-              columns={columns}
-              onSetColumns={setColumns}
-            />
-          ))}
+    <>
+      <ModalProvider
+        isOpen={showModal}
+        onClose={() => setShowModal(!showModal)}
+      >
+        This is modal content
+      </ModalProvider>
+
+      <div className={styles.board}>
+        <div className={classNames(styles.board__container, "container")}>
+          <div className={styles.board__items}>
+            {columns.map((column) => (
+              <Column
+                key={column.id}
+                title={column.title}
+                cards={cards}
+                columns={columns}
+                onSetColumns={setColumns}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
