@@ -3,3 +3,20 @@
 .container {
   padding: 15px;
 }
+
+.button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background: var(--accent-border);
+  }
+  &:disabled {
+    background: gray;
+  }
+}
