@@ -3,6 +3,7 @@ import Card from "../Card/Card";
 import { useState, type ChangeEvent } from "react";
 
 interface CardProps {
+  id: number;
   title: string;
   author: string;
   description?: string;
@@ -13,6 +14,7 @@ interface ColumnProps {
   cards: Array<CardProps>;
   columns: { id: number; title: string }[];
   onSetColumns: CallableFunction;
+  onCardClick: CallableFunction;
 }
 
 export default function Column({
@@ -20,6 +22,7 @@ export default function Column({
   cards,
   columns,
   onSetColumns,
+  onCardClick,
 }: ColumnProps) {
   const [isEditTitle, setIsEditTitle] = useState(false);
 
@@ -54,9 +57,11 @@ export default function Column({
         {cards.map((card, i) => (
           <Card
             key={i}
+            id={card.id}
             title={card.title}
             author={card.author}
             description={card.description}
+            onCardClick={() => onCardClick(card.id)}
           />
         ))}
       </div>

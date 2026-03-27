@@ -9,6 +9,14 @@
   &__container {
     // border: 1px solid;
   }
+
+  // .board__header
+  &__header {
+    @include flex(row, "", center);
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
   // .board__items
 
   &__items {

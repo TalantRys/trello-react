@@ -1,0 +1,48 @@
+.modal-overlay {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+.modal {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+.modal,
+.modal-overlay {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease-in,
+    visibility 0.3s ease-in;
+  pointer-events: none;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+.modal__container {
+  position: relative;
+  padding: 40px;
+  background: var(--bg);
+  border-radius: 20px;
+  max-width: 417px;
+  margin: auto;
+}
+.modal__close {
+  position: absolute;
+  z-index: 5;
+  right: 16px;
+  top: 16px;
+  padding: 3px;
+  width: 26px;
+  height: 26px;
+}

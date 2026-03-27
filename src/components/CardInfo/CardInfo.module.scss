@@ -1,0 +1,13 @@
+@use "@assets/scss/bundle" as *;
+
+.modal-card {
+  @include flex(column);
+  gap: 20px;
+  min-width: 300px;
+}
+
+.author {
+  padding-top: 5px;
+  border-top: 1px solid;
+  font-size: rem(14);
+}
