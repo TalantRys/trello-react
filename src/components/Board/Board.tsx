@@ -4,6 +4,8 @@ import Column from "../Column/Column";
 import { useState } from "react";
 import ModalProvider from "../ModalProvider/ModalProvider";
 import CardInfo from "../CardInfo/CardInfo";
+import AuthorForm from "../AuthorForm/AuthorForm";
+
 interface CardProps {
   id: number;
   title: string;
@@ -46,17 +48,9 @@ function Board() {
   const [showCardModal, setShowCardModal] = useState(false);
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
 
-  const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
-    if (name.trim() === "") {
-      alert("Please enter your name");
-      return;
-    } else {
-      setAuthor(name);
-      setShowModal(false);
-    }
+  const handleAuthorFormSubmit = (name: string) => {
+    setAuthor(name);
+    setShowModal(false);
   };
 
   const handleCardClick = (id: number) => {
@@ -72,19 +66,7 @@ function Board() {
         isOpen={showModal}
         onClose={() => setShowModal(!showModal)}
       >
-        <form onSubmit={handleFormSubmit}>
-          <h2>Enter your name</h2>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            defaultValue={author}
-            placeholder="Your name"
-          />
-          <button className="button" type="submit">
-            Submit
-          </button>
-        </form>
+        <AuthorForm stateValue={author} onSubmit={handleAuthorFormSubmit} />
       </ModalProvider>
 
       <ModalProvider
