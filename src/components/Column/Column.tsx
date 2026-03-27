@@ -14,6 +14,7 @@ interface ColumnProps {
   cards: Array<CardProps>;
   columns: { id: number; title: string }[];
   onSetColumns: CallableFunction;
+  onCardClick: CallableFunction;
 }
 
 export default function Column({
@@ -21,6 +22,7 @@ export default function Column({
   cards,
   columns,
   onSetColumns,
+  onCardClick,
 }: ColumnProps) {
   const [isEditTitle, setIsEditTitle] = useState(false);
 
@@ -59,6 +61,7 @@ export default function Column({
             title={card.title}
             author={card.author}
             description={card.description}
+            onCardClick={() => onCardClick(card.id)}
           />
         ))}
       </div>

@@ -5,11 +5,12 @@ interface CardProps {
   title: string;
   author: string;
   description?: string;
+  onCardClick: CallableFunction;
 }
 
-function Card({ id, title, author, description }: CardProps) {
+function Card({ id, title, author, description, onCardClick }: CardProps) {
   return (
-    <div className={styles.card} data-id={id}>
+    <div className={styles.card} onClick={() => onCardClick(id)}>
       <div className={styles.card__header}>
         <span className={styles.card__title}>{title}</span>
       </div>

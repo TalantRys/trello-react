@@ -3,7 +3,6 @@ import styles from "./board.module.scss";
 import Column from "../Column/Column";
 import { useState } from "react";
 import ModalProvider from "../ModalProvider/ModalProvider";
-import cardStyles from "../Card/card.module.scss";
 import CardInfo from "../CardInfo/CardInfo";
 interface CardProps {
   id: number;
@@ -60,13 +59,9 @@ function Board() {
     }
   };
 
-  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLElement;
-    const card = target.closest("." + cardStyles.card) as HTMLElement;
-    if (card) {
-      setCurrentCardId(Number(card.dataset.id));
-      setShowCardModal(true);
-    }
+  const handleCardClick = (id: number) => {
+    setCurrentCardId(id);
+    setShowCardModal(true);
   };
 
   const currentCard = cards.find((card) => card.id === currentCardId);
@@ -113,7 +108,7 @@ function Board() {
             </button>
           </div>
 
-          <div className={styles.board__items} onClick={handleCardClick}>
+          <div className={styles.board__items}>
             {columns.map((column) => (
               <Column
                 key={column.id}
@@ -121,6 +116,7 @@ function Board() {
                 cards={cards}
                 columns={columns}
                 onSetColumns={setColumns}
+                onCardClick={handleCardClick}
               />
             ))}
           </div>
