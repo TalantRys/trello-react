@@ -21,6 +21,13 @@
   }
 }
 
+.input {
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
 
 .modal-title {
   font-size: rem(18);

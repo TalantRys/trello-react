@@ -10,7 +10,7 @@ interface CardProps {
 export default function CardInfo({ card }: { card: CardProps | undefined }) {
   return (
     <div className={styles["modal-card"]}>
-      <h2 className={styles.title}>{card?.title}</h2>
+      <h2 className="modal-title">{card?.title}</h2>
       {card?.description !== undefined && <p>{card?.description}</p>}
       <span className={styles.author}>By {card?.author}</span>
     </div>

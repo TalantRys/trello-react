@@ -25,6 +25,7 @@ export default function AuthorForm({ stateValue, onSubmit }: AuthorFormProps) {
       <input
         id="name"
         name="name"
+        className="input"
         type="text"
         defaultValue={stateValue}
         placeholder="Your name"
