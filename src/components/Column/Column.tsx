@@ -3,6 +3,7 @@ import Card from "../Card/Card";
 import { useState, type ChangeEvent } from "react";
 
 interface CardProps {
+  id: number;
   title: string;
   author: string;
   description?: string;
@@ -54,6 +55,7 @@ export default function Column({
         {cards.map((card, i) => (
           <Card
             key={i}
+            id={card.id}
             title={card.title}
             author={card.author}
             description={card.description}

@@ -3,8 +3,10 @@ import styles from "./board.module.scss";
 import Column from "../Column/Column";
 import { useState } from "react";
 import ModalProvider from "../ModalProvider/ModalProvider";
-
+import cardStyles from "../Card/card.module.scss";
+import CardInfo from "../CardInfo/CardInfo";
 interface CardProps {
+  id: number;
   title: string;
   author: string;
   description?: string;
@@ -12,15 +14,18 @@ interface CardProps {
 
 let cards: Array<CardProps> = [
   {
+    id: 0,
     title: "",
     author: "Billy",
   },
   {
+    id: 1,
     title: "",
     author: "Carl",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing.",
   },
   {
+    id: 2,
     title: "",
     author: "Robert",
   },
@@ -39,6 +44,8 @@ function Board() {
   const [author, setAuthor] = useState("");
   const [columns, setColumns] = useState(columnsArr);
   const [showModal, setShowModal] = useState(true);
+  const [showCardModal, setShowCardModal] = useState(false);
+  const [currentCardModal, setCurrentCardModal] = useState<number | null>(null);
 
   const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,6 +59,17 @@ function Board() {
       setShowModal(false);
     }
   };
+
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    const card = target.closest("." + cardStyles.card) as HTMLElement;
+    if (card) {
+      setCurrentCardModal(Number(card.dataset.id));
+      setShowCardModal(true);
+    }
+  };
+
+  const currentCard = cards.find((card) => card.id === currentCardModal);
 
   return (
     <>
@@ -68,6 +86,13 @@ function Board() {
         </form>
       </ModalProvider>
 
+      <ModalProvider
+        isOpen={showCardModal}
+        onClose={() => setShowCardModal(!showCardModal)}
+      >
+        <CardInfo card={currentCard} />
+      </ModalProvider>
+
       <div className={styles.board}>
         <div className={classNames(styles.board__container, "container")}>
           <div className={styles.board__header}>
@@ -82,7 +107,7 @@ function Board() {
             </button>
           </div>
 
-          <div className={styles.board__items}>
+          <div className={styles.board__items} onClick={handleCardClick}>
             {columns.map((column) => (
               <Column
                 key={column.id}
