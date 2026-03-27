@@ -79,7 +79,13 @@ function Board() {
       >
         <form onSubmit={handleFormSubmit}>
           <h2>Enter your name</h2>
-          <input id="name" name="name" type="text" placeholder="Your name" />
+          <input
+            id="name"
+            name="name"
+            type="text"
+            defaultValue={author}
+            placeholder="Your name"
+          />
           <button className="button" type="submit">
             Submit
           </button>
@@ -96,14 +102,14 @@ function Board() {
       <div className={styles.board}>
         <div className={classNames(styles.board__container, "container")}>
           <div className={styles.board__header}>
-            {author !== "" && <h2>Welcome, {author}</h2>}
+            {!!author && <h2>Welcome, {author}</h2>}
 
             <button
               className="button"
               disabled={showModal}
               onClick={() => setShowModal(true)}
             >
-              {author !== "" ? "Change author" : "Add author"}
+              {author ? "Change author" : "Add author"}
             </button>
           </div>
 
