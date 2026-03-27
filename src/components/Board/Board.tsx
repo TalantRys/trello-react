@@ -45,7 +45,7 @@ function Board() {
   const [columns, setColumns] = useState(columnsArr);
   const [showModal, setShowModal] = useState(true);
   const [showCardModal, setShowCardModal] = useState(false);
-  const [currentCardModal, setCurrentCardModal] = useState<number | null>(null);
+  const [currentCardId, setCurrentCardId] = useState<number | null>(null);
 
   const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,12 +64,12 @@ function Board() {
     const target = e.target as HTMLElement;
     const card = target.closest("." + cardStyles.card) as HTMLElement;
     if (card) {
-      setCurrentCardModal(Number(card.dataset.id));
+      setCurrentCardId(Number(card.dataset.id));
       setShowCardModal(true);
     }
   };
 
-  const currentCard = cards.find((card) => card.id === currentCardModal);
+  const currentCard = cards.find((card) => card.id === currentCardId);
 
   return (
     <>
