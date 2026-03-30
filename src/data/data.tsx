@@ -1,19 +1,13 @@
-interface CardProps {
-  id: number;
-  columnId: number;
-  title: string;
-  author: string;
-  description?: string;
-}
+import type { ColumnType, CardType } from "../types";
 
-export const columnsArr: { id: number; title: string }[] = [
+export const columnsArr: ColumnType[] = [
   { id: 0, title: "TODO" },
   { id: 1, title: "In progress" },
   { id: 2, title: "Processing" },
   { id: 3, title: "Done" },
 ];
 
-export const cards: Array<CardProps> = [
+export const cards: CardType[] = [
   {
     id: 0,
     columnId: 0,

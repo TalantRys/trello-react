@@ -7,6 +7,7 @@ import CardInfo from "../CardInfo/CardInfo";
 import AuthorForm from "../AuthorForm/AuthorForm";
 import { cards, columnsArr } from "../../data/data";
 import Card from "../Card/Card";
+import type { ColumnType } from "../../types";
 
 function Board() {
   const [author, setAuthor] = useState("");
@@ -15,6 +16,8 @@ function Board() {
   const [showModal, setShowModal] = useState(true);
   const [showCardModal, setShowCardModal] = useState(false);
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
+
+  const currentCard = cards.find((card) => card.id === currentCardId);
 
   const handleAuthorFormSubmit = (name: string) => {
     setAuthor(name);
@@ -26,7 +29,13 @@ function Board() {
     setShowCardModal(true);
   };
 
-  const currentCard = cards.find((card) => card.id === currentCardId);
+  const handleColumnChange = (updatedColumn: ColumnType) => {
+    setColumns(
+      columns.map((column) =>
+        column.id === updatedColumn.id ? updatedColumn : column,
+      ),
+    );
+  };
 
   return (
     <>
@@ -62,19 +71,15 @@ function Board() {
             {columns.map((column) => (
               <Column
                 key={column.id}
-                title={column.title}
-                columns={columns}
-                onSetColumns={setColumns}
+                column={column}
+                onColumnChange={handleColumnChange}
               >
                 {cards.map(
                   (card) =>
                     card.columnId === column.id && (
                       <Card
                         key={card.id}
-                        id={card.id}
-                        title={card.title}
-                        author={card.author}
-                        description={card.description}
+                        card={card}
                         onCardClick={() => handleCardClick(card.id)}
                       />
                     ),

@@ -1,22 +1,22 @@
+import type { CardType } from "../../types";
 import styles from "./card.module.scss";
 
-interface CardProps {
-  id: number;
-  title: string;
-  author: string;
-  description?: string;
+type CardProps = {
+  card: CardType;
   onCardClick: CallableFunction;
-}
+};
 
-function Card({ id, title, author, description, onCardClick }: CardProps) {
+function Card({ card, onCardClick }: CardProps) {
   return (
-    <div className={styles.card} onClick={() => onCardClick(id)}>
+    <div className={styles.card} onClick={() => onCardClick(card.id)}>
       <div className={styles.card__header}>
-        <span className={styles.card__title}>{title}</span>
+        <span className={styles.card__title}>{card.title}</span>
       </div>
-      <div className={styles.card__content}>{description}</div>
+      {!!card.description && (
+        <div className={styles.card__content}>{card.description}</div>
+      )}
       <div className={styles.card__footer}>
-        <span className={styles.card__author}>Author: {author}</span>
+        <span className={styles.card__author}>Author: {card.author}</span>
       </div>
     </div>
   );

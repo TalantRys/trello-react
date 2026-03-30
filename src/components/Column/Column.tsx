@@ -1,42 +1,31 @@
+import type { ColumnType } from "../../types";
 import styles from "./column.module.scss";
 import { useState, type ChangeEvent, type PropsWithChildren } from "react";
 
-interface ColumnProps {
-  title: string;
-  columns: { id: number; title: string }[];
-  onSetColumns: CallableFunction;
-}
+type ColumnProps = {
+  column: ColumnType;
+  onColumnChange: CallableFunction;
+};
 
 export default function Column({
   children,
-  title,
-  columns,
-  onSetColumns,
+  column,
+  onColumnChange,
 }: PropsWithChildren<ColumnProps>) {
   const [isEditTitle, setIsEditTitle] = useState(false);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    const newTitle = event.target.value;
-    const newColumns = columns.map((column) => {
-      if (column.title === title) {
-        return {
-          ...column,
-          title: newTitle,
-        };
-      }
-
-      return column;
-    });
-
-    onSetColumns(newColumns);
+    const newTitle = { ...column, title: event.target.value };
+    onColumnChange(newTitle);
   }
+
   return (
     <div className={styles.column}>
       <div className={styles.column__header}>
         {isEditTitle ? (
-          <input type="text" value={title} onChange={handleChange} />
+          <input type="text" value={column.title} onChange={handleChange} />
         ) : (
-          <p className={styles.column__title}>{title}</p>
+          <p className={styles.column__title}>{column.title}</p>
         )}
         <button type="button" onClick={() => setIsEditTitle(!isEditTitle)}>
           {!isEditTitle ? "Edit" : "X"}
