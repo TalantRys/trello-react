@@ -6,18 +6,43 @@
   border-radius: 5px;
 
   // .column__header
-  &__header{
-    @include flex($jc: space-between);
+  &__header {
+    @include flex($jc: space-between, $ai: center);
+    width: 100%;
+    height: 30px;
     gap: 5px;
+    margin-bottom: 10px;
   }
 
   // .column__title
 
   &__title {
-    margin-bottom: 10px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: bold;
     color: var(--text-h);
+    width: 100%;
+    height: 100%;
+    word-break: break-all;
+  }
+
+  // .column__input
+
+  &__input {
+    padding: 4px;
+    width: 100%;
+    height: 30px;
+  }
+
+  // .column__button
+
+  &__button {
+    flex-shrink: 0;
+    padding: 4px;
+    height: 30px;
+    &.active {
+      background-color: green;
+      color: #fff;
+    }
   }
 
   // .column__cards

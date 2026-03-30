@@ -1,6 +1,7 @@
+import classNames from "classnames";
 import type { ColumnType } from "../../types";
 import styles from "./column.module.scss";
-import { useState, type ChangeEvent, type PropsWithChildren } from "react";
+import { useState, type KeyboardEvent, type PropsWithChildren } from "react";
 
 type ColumnProps = {
   column: ColumnType;
@@ -13,9 +14,18 @@ export default function Column({
   onColumnChange,
 }: PropsWithChildren<ColumnProps>) {
   const [isEditTitle, setIsEditTitle] = useState(false);
+  const [editTitle, setEditTitle] = useState(column.title);
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    const newTitle = { ...column, title: event.target.value };
+  function handleKeydown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter") {
+      saveNewTitle(false);
+    }
+  }
+
+  function saveNewTitle(isEdit: boolean) {
+    setIsEditTitle(isEdit);
+
+    const newTitle = { ...column, title: editTitle };
     onColumnChange(newTitle);
   }
 
@@ -23,12 +33,24 @@ export default function Column({
     <div className={styles.column}>
       <div className={styles.column__header}>
         {isEditTitle ? (
-          <input type="text" value={column.title} onChange={handleChange} />
+          <input
+            className={classNames(styles.column__input, "input")}
+            type="text"
+            value={editTitle}
+            onChange={(e) => setEditTitle(e.target.value)}
+            onKeyDown={handleKeydown}
+          />
         ) : (
-          <p className={styles.column__title}>{column.title}</p>
+          <p className={styles.column__title}>{editTitle}</p>
         )}
-        <button type="button" onClick={() => setIsEditTitle(!isEditTitle)}>
-          {!isEditTitle ? "Edit" : "X"}
+        <button
+          className={classNames("button", styles.column__button, {
+            [styles.active]: isEditTitle,
+          })}
+          type="button"
+          onClick={() => saveNewTitle(!isEditTitle)}
+        >
+          {!isEditTitle ? "Edit" : "Save"}
         </button>
       </div>
       <div className={styles.column__cards}>{children}</div>
