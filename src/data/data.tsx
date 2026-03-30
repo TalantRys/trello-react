@@ -7,7 +7,7 @@ export const columnsArr: ColumnType[] = [
   { id: 3, title: "Done" },
 ];
 
-export const cards: CardType[] = [
+export const cardsArr: CardType[] = [
   {
     id: 0,
     columnId: 0,
