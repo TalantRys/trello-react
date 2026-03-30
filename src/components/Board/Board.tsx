@@ -5,44 +5,12 @@ import { useState } from "react";
 import ModalProvider from "../ModalProvider/ModalProvider";
 import CardInfo from "../CardInfo/CardInfo";
 import AuthorForm from "../AuthorForm/AuthorForm";
-
-interface CardProps {
-  id: number;
-  title: string;
-  author: string;
-  description?: string;
-}
-
-let cards: Array<CardProps> = [
-  {
-    id: 0,
-    title: "",
-    author: "Billy",
-  },
-  {
-    id: 1,
-    title: "",
-    author: "Carl",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing.",
-  },
-  {
-    id: 2,
-    title: "",
-    author: "Robert",
-  },
-];
-
-cards = cards.map((card, i) => ({ ...card, title: `Card ${i + 1}` }));
-
-const columnsArr: { id: number; title: string }[] = [
-  { id: 0, title: "TODO" },
-  { id: 1, title: "In progress" },
-  { id: 2, title: "Processing" },
-  { id: 3, title: "Done" },
-];
+import { cards, columnsArr } from "../../data/data";
+import Card from "../Card/Card";
 
 function Board() {
   const [author, setAuthor] = useState("");
+  // const [cards, setCards] = useState(cardsArr);
   const [columns, setColumns] = useState(columnsArr);
   const [showModal, setShowModal] = useState(true);
   const [showCardModal, setShowCardModal] = useState(false);
@@ -95,11 +63,23 @@ function Board() {
               <Column
                 key={column.id}
                 title={column.title}
-                cards={cards}
                 columns={columns}
                 onSetColumns={setColumns}
-                onCardClick={handleCardClick}
-              />
+              >
+                {cards.map(
+                  (card) =>
+                    card.columnId === column.id && (
+                      <Card
+                        key={card.id}
+                        id={card.id}
+                        title={card.title}
+                        author={card.author}
+                        description={card.description}
+                        onCardClick={() => handleCardClick(card.id)}
+                      />
+                    ),
+                )}
+              </Column>
             ))}
           </div>
         </div>

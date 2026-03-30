@@ -1,29 +1,18 @@
 import styles from "./column.module.scss";
-import Card from "../Card/Card";
-import { useState, type ChangeEvent } from "react";
-
-interface CardProps {
-  id: number;
-  title: string;
-  author: string;
-  description?: string;
-}
+import { useState, type ChangeEvent, type PropsWithChildren } from "react";
 
 interface ColumnProps {
   title: string;
-  cards: Array<CardProps>;
   columns: { id: number; title: string }[];
   onSetColumns: CallableFunction;
-  onCardClick: CallableFunction;
 }
 
 export default function Column({
+  children,
   title,
-  cards,
   columns,
   onSetColumns,
-  onCardClick,
-}: ColumnProps) {
+}: PropsWithChildren<ColumnProps>) {
   const [isEditTitle, setIsEditTitle] = useState(false);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -53,18 +42,7 @@ export default function Column({
           {!isEditTitle ? "Edit" : "X"}
         </button>
       </div>
-      <div className={styles.column__cards}>
-        {cards.map((card, i) => (
-          <Card
-            key={i}
-            id={card.id}
-            title={card.title}
-            author={card.author}
-            description={card.description}
-            onCardClick={() => onCardClick(card.id)}
-          />
-        ))}
-      </div>
+      <div className={styles.column__cards}>{children}</div>
     </div>
   );
 }
