@@ -41,7 +41,9 @@ function Board() {
     <>
       <ModalProvider
         isOpen={showModal}
-        onClose={() => setShowModal(!showModal)}
+        onClose={() =>
+          !author ? alert("Please enter your name") : setShowModal(!showModal)
+        }
       >
         <AuthorForm stateValue={author} onSubmit={handleAuthorFormSubmit} />
       </ModalProvider>
