@@ -1,7 +1,8 @@
-import { useEffect, type PropsWithChildren } from "react";
+import { useEffect, useRef, type PropsWithChildren } from "react";
 import styles from "./modal.module.scss";
 import classNames from "classnames";
 import { FocusTrap } from "focus-trap-react";
+import { Transition } from "react-transition-group";
 
 type ModalProps = {
   isOpen: boolean;
@@ -13,6 +14,7 @@ export default function Modal({
   onClose,
   isOpen,
 }: PropsWithChildren<ModalProps>) {
+  const nodeRef = useRef<HTMLDivElement | null>(null);
   // ESC key handling
   useEffect(() => {
     if (!isOpen) return;
@@ -29,29 +31,38 @@ export default function Modal({
   }, [isOpen, onClose]);
 
   return (
-    isOpen && (
-      <FocusTrap>
-        <div className={classNames(styles.modal, { [styles.active]: isOpen })}>
+    <Transition nodeRef={nodeRef} in={isOpen} timeout={300} unmountOnExit>
+      {(state) => (
+        <FocusTrap
+          active={isOpen}
+          focusTrapOptions={{
+            fallbackFocus: () => (nodeRef.current as HTMLElement) || undefined,
+          }}
+        >
           <div
-            className={classNames(styles["modal-overlay"], {
-              [styles.active]: isOpen,
-            })}
-            onClick={onClose}
-          ></div>
-          <div className={styles.modal__container}>
-            <button className={styles.modal__close} onClick={onClose}>
-              <img
-                src="/close.svg"
-                alt="close"
-                width="20"
-                height="20"
-                loading="lazy"
-              />
-            </button>
-            <div className={styles.modal__content}>{children}</div>
+            ref={nodeRef}
+            tabIndex={-1}
+            className={classNames(styles.modal, styles[state])}
+          >
+            <div
+              className={classNames(styles["modal-overlay"], styles[state])}
+              onClick={onClose}
+            ></div>
+            <div className={styles.modal__container}>
+              <button className={styles.modal__close} onClick={onClose}>
+                <img
+                  src="/close.svg"
+                  alt="close"
+                  width="20"
+                  height="20"
+                  loading="lazy"
+                />
+              </button>
+              <div className={styles.modal__content}>{children}</div>
+            </div>
           </div>
-        </div>
-      </FocusTrap>
-    )
+        </FocusTrap>
+      )}
+    </Transition>
   );
 }
