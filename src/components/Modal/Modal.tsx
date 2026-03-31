@@ -15,9 +15,15 @@ export default function Modal({
   isOpen,
 }: PropsWithChildren<ModalProps>) {
   const nodeRef = useRef<HTMLDivElement | null>(null);
+
+  const lockScroll = (lock: boolean) =>
+    document.body.classList.toggle("scroll-lock", lock);
+
   // ESC key handling
   useEffect(() => {
     if (!isOpen) return;
+
+    lockScroll(true);
 
     const handleEscape = (event: { key: string }) => {
       if (event.key === "Escape") {
@@ -31,7 +37,14 @@ export default function Modal({
   }, [isOpen, onClose]);
 
   return (
-    <Transition nodeRef={nodeRef} in={isOpen} timeout={300} unmountOnExit>
+    <Transition
+      nodeRef={nodeRef}
+      in={isOpen}
+      timeout={300}
+      unmountOnExit
+      onEnter={() => lockScroll(true)}
+      onExit={() => lockScroll(false)}
+    >
       {(state) => (
         <FocusTrap
           active={isOpen}
