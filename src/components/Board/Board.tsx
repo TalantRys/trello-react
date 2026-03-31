@@ -5,48 +5,19 @@ import { useState } from "react";
 import ModalProvider from "../ModalProvider/ModalProvider";
 import CardInfo from "../CardInfo/CardInfo";
 import AuthorForm from "../AuthorForm/AuthorForm";
-
-interface CardProps {
-  id: number;
-  title: string;
-  author: string;
-  description?: string;
-}
-
-let cards: Array<CardProps> = [
-  {
-    id: 0,
-    title: "",
-    author: "Billy",
-  },
-  {
-    id: 1,
-    title: "",
-    author: "Carl",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing.",
-  },
-  {
-    id: 2,
-    title: "",
-    author: "Robert",
-  },
-];
-
-cards = cards.map((card, i) => ({ ...card, title: `Card ${i + 1}` }));
-
-const columnsArr: { id: number; title: string }[] = [
-  { id: 0, title: "TODO" },
-  { id: 1, title: "In progress" },
-  { id: 2, title: "Processing" },
-  { id: 3, title: "Done" },
-];
+import { cards, columnsArr } from "../../data/data";
+import Card from "../Card/Card";
+import type { ColumnType } from "../../types";
 
 function Board() {
   const [author, setAuthor] = useState("");
+  // const [cards, setCards] = useState(cardsArr);
   const [columns, setColumns] = useState(columnsArr);
   const [showModal, setShowModal] = useState(true);
   const [showCardModal, setShowCardModal] = useState(false);
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
+
+  const currentCard = cards.find((card) => card.id === currentCardId);
 
   const handleAuthorFormSubmit = (name: string) => {
     setAuthor(name);
@@ -58,7 +29,13 @@ function Board() {
     setShowCardModal(true);
   };
 
-  const currentCard = cards.find((card) => card.id === currentCardId);
+  const handleColumnChange = (updatedColumn: ColumnType) => {
+    setColumns(
+      columns.map((column) =>
+        column.id === updatedColumn.id ? updatedColumn : column,
+      ),
+    );
+  };
 
   return (
     <>
@@ -94,12 +71,20 @@ function Board() {
             {columns.map((column) => (
               <Column
                 key={column.id}
-                title={column.title}
-                cards={cards}
-                columns={columns}
-                onSetColumns={setColumns}
-                onCardClick={handleCardClick}
-              />
+                column={column}
+                onColumnChange={handleColumnChange}
+              >
+                {cards.map(
+                  (card) =>
+                    card.columnId === column.id && (
+                      <Card
+                        key={card.id}
+                        card={card}
+                        onCardClick={() => handleCardClick(card.id)}
+                      />
+                    ),
+                )}
+              </Column>
             ))}
           </div>
         </div>
