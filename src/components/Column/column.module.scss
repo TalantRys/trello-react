@@ -37,16 +37,12 @@
     height: 30px;
   }
 
-  // .column__button
+  // .button
 
-  &__button {
+  .button {
     flex-shrink: 0;
     padding: 4px;
     height: 30px;
-    &.active {
-      background-color: green;
-      color: #fff;
-    }
   }
 
   // .column__cards

@@ -26,7 +26,7 @@ export default function Button({
       className={classNames(
         "button",
         styles.button,
-        variant && styles[variant],
+        !!variant && styles[variant],
         { [styles.active]: active },
         className,
       )}

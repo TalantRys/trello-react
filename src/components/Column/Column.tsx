@@ -58,15 +58,13 @@ export default function Column({
         ) : (
           <p className={styles.column__title}>{editTitle}</p>
         )}
-        <button
-          className={classNames("button", styles.column__button, {
-            [styles.active]: isEditTitle,
-          })}
-          type="button"
+        <Button
+          active={isEditTitle}
+          className={styles.button}
           onClick={() => saveNewTitle(!isEditTitle)}
         >
           {!isEditTitle ? "Edit" : "Save"}
-        </button>
+        </Button>
       </div>
       <div className={styles.column__cards}>
         {children}
