@@ -4,6 +4,7 @@ import styles from "./Button.module.scss";
 
 type ButtonProps = {
   active?: boolean;
+  variant?: "danger" | null;
   onClick: () => void;
   className?:
     | classNames.Value
@@ -16,6 +17,7 @@ type ButtonProps = {
 export default function Button({
   children,
   active = false,
+  variant,
   onClick,
   className,
 }: PropsWithChildren<ButtonProps>) {
@@ -24,6 +26,7 @@ export default function Button({
       className={classNames(
         "button",
         styles.button,
+        variant && styles[variant],
         { [styles.active]: active },
         className,
       )}

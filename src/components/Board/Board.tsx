@@ -47,6 +47,10 @@ function Board() {
     );
   };
 
+  const handleCardDelete = (cardId: number) => {
+    setCards(cards.filter((card) => card.id !== cardId));
+  };
+
   return (
     <>
       <ModalProvider
@@ -95,6 +99,7 @@ function Board() {
                         card={card}
                         onCardClick={() => handleCardClick(card.id)}
                         onCardEdit={handleEditCard}
+                        onCardDelete={() => handleCardDelete(card.id)}
                       />
                     ),
                 )}

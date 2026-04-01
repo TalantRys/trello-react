@@ -9,9 +9,10 @@ type CardProps = {
   card: CardType;
   onCardClick: CallableFunction;
   onCardEdit: CallableFunction;
+  onCardDelete: CallableFunction;
 };
 
-function Card({ card, onCardClick, onCardEdit }: CardProps) {
+function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [cardTitle, setCardTitle] = useState(card.title);
 
@@ -48,9 +49,14 @@ function Card({ card, onCardClick, onCardEdit }: CardProps) {
         onChange={(e) => setCardTitle(e.target.value)}
         onKeyDown={(e) => handleEnterKey(e, editCard)}
       />
-      <Button active={isEditing} onClick={() => editCard(!isEditing)}>
-        Save
-      </Button>
+     <div className={styles.card__buttons}>
+        <Button active={isEditing} onClick={() => editCard(!isEditing)}>
+          Save
+        </Button>
+        <Button variant="danger" onClick={() => onCardDelete()}>
+          Delete card
+        </Button>
+     </div>
     </div>
   );
 }

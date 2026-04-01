@@ -15,7 +15,7 @@
 
   &__title {
     font-weight: 500;
-    word-break: break-all
+    word-break: break-all;
   }
 
   // .card__button
@@ -48,5 +48,11 @@
 
   &__author {
     font-size: rem(12);
+  }
+
+  // .card__buttons
+  &__buttons {
+    @include flex(row, space-between, center, 5px);
+    flex-wrap: wrap;
   }
 }
