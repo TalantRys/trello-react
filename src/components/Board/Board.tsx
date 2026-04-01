@@ -41,6 +41,12 @@ function Board() {
     setCards([...cards, { ...newCard, author }]);
   };
 
+  const handleEditCard = (changedCard: CardType) => {
+    setCards(
+      cards.map((card) => (card.id === changedCard.id ? changedCard : card)),
+    );
+  };
+
   return (
     <>
       <ModalProvider
@@ -88,6 +94,7 @@ function Board() {
                         key={card.id}
                         card={card}
                         onCardClick={() => handleCardClick(card.id)}
+                        onCardEdit={handleEditCard}
                       />
                     ),
                 )}

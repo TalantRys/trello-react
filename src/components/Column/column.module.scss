@@ -56,27 +56,10 @@
     gap: 10px;
   }
 
-  // .column__new-card
-
-  &__new-card {
-    font-size: 0.9rem;
-    padding: 5px;
-    width: 100%;
-  }
-
   // .column__footer
 
   &__footer {
     @include flex($jc: space-between, $ai: center);
     width: 100%;
-  }
-
-  // .column__card-button
-
-  &__card-button {
-    padding: 6px 12px;
-    &.active {
-      background: green;
-    }
   }
 }

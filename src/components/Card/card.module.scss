@@ -7,6 +7,7 @@
 
   // .card__header
   &__header {
+    @include flex(row, space-between, center);
     border-bottom: 1px solid var(--border);
     padding-bottom: 5px;
   }
@@ -14,6 +15,23 @@
 
   &__title {
     font-weight: 500;
+    word-break: break-all
+  }
+
+  // .card__button
+
+  &__button {
+    @include flex(row, center, center);
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    background-color: gray;
+    mask: url("/pen-to-square-solid-full.svg") no-repeat center;
+    @include trans(background-color);
+
+    &:hover {
+      background-color: black;
+    }
   }
 
   // .card__content

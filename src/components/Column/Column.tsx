@@ -1,7 +1,10 @@
 import classNames from "classnames";
 import type { ColumnType } from "../../types";
 import styles from "./column.module.scss";
-import { useState, type KeyboardEvent, type PropsWithChildren } from "react";
+import { useState, type PropsWithChildren } from "react";
+import Textarea from "../ui/Textarea/Textarea";
+import { handleEnterKey } from "../../functions/keyDown";
+import Button from "../ui/Button/Button";
 
 type ColumnProps = {
   column: ColumnType;
@@ -19,15 +22,6 @@ export default function Column({
   const [editTitle, setEditTitle] = useState(column.title);
   const [newCardTitle, setNewCardTitle] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
-
-  function handleKeydown(
-    event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
-    callback: CallableFunction,
-  ) {
-    if (event.key === "Enter") {
-      callback(false);
-    }
-  }
 
   function saveNewTitle(isEdit: boolean) {
     setIsEditTitle(isEdit);
@@ -59,7 +53,7 @@ export default function Column({
             autoFocus
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
-            onKeyDown={(e) => handleKeydown(e, saveNewTitle)}
+            onKeyDown={(e) => handleEnterKey(e, saveNewTitle)}
           />
         ) : (
           <p className={styles.column__title}>{editTitle}</p>
@@ -78,25 +72,17 @@ export default function Column({
         {children}
 
         {isAddingCard && (
-          <textarea
-            className={classNames("textarea", styles["column__new-card"])}
-            placeholder="Write name of new card"
+          <Textarea
             value={newCardTitle}
-            autoFocus
             onChange={(e) => setNewCardTitle(e.target.value)}
-            onKeyDown={(e) => handleKeydown(e, addNewCard)}
-          ></textarea>
+            onKeyDown={(e) => handleEnterKey(e, addNewCard)}
+          />
         )}
       </div>
       <div className={styles.column__footer}>
-        <button
-          className={classNames("button", styles["column__card-button"], {
-            [styles.active]: isAddingCard,
-          })}
-          onClick={() => addNewCard(!isAddingCard)}
-        >
+        <Button active={isAddingCard} onClick={() => addNewCard(!isAddingCard)}>
           Add Card
-        </button>
+        </Button>
       </div>
     </div>
   );

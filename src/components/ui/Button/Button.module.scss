@@ -1,0 +1,12 @@
+@use "@assets/scss/bundle" as *;
+@use "sass:color";
+
+.button {
+  padding: 6px 12px;
+  &.active {
+    background-color: green;
+    &:hover {
+      background-color: color.change(green, $alpha: 0.5);
+    }
+  }
+}
