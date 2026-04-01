@@ -1,5 +1,9 @@
 @use "bundle" as *;
 
+.scroll-lock {
+  overflow: hidden;
+}
+
 .container {
   padding: 15px;
 }
