@@ -66,7 +66,7 @@ function Board() {
         isOpen={showCardModal}
         onClose={() => setShowCardModal(!showCardModal)}
       >
-        <CardInfo card={currentCard} />
+        <CardInfo card={currentCard} onCardEdit={handleEditCard} />
       </ModalProvider>
 
       <div className={styles.board}>
