@@ -69,6 +69,15 @@ function Board() {
         }
         isOpen={showCardModal}
         onClose={() => setShowCardModal(!showCardModal)}
+        menuItems={[
+          {
+            name: "Delete card",
+            onClick: () => {
+              handleCardDelete(currentCardId as number);
+              setShowCardModal(!showCardModal);
+            },
+          },
+        ]}
       >
         <CardInfo card={currentCard} onCardEdit={handleEditCard} />
       </Modal>

@@ -4,11 +4,13 @@ import classNames from "classnames";
 import { FocusTrap } from "focus-trap-react";
 import { Transition } from "react-transition-group";
 import { createPortal } from "react-dom";
+import Menu, { type MenuProps } from "../Menu/Menu";
 
 type ModalProps = {
   title?: string;
   isOpen: boolean;
   onClose: () => void;
+  menuItems?: MenuProps["items"];
 };
 
 export default function Modal({
@@ -16,6 +18,7 @@ export default function Modal({
   onClose,
   isOpen,
   title,
+  menuItems,
 }: PropsWithChildren<ModalProps>) {
   const nodeRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,15 +70,19 @@ export default function Modal({
             <div className={styles.modal__container}>
               <div className={styles.modal__header}>
                 <h2 className={styles.modal__title}>{title}</h2>
-                <button className={styles.modal__close} onClick={onClose}>
-                  <img
-                    src="/close.svg"
-                    alt="close"
-                    width="20"
-                    height="20"
-                    loading="lazy"
-                  />
-                </button>
+                <div className={styles.modal__buttons}>
+                  <Menu items={menuItems} />
+
+                  <button className={styles.modal__close} onClick={onClose}>
+                    <img
+                      src="/close.svg"
+                      alt="close"
+                      width="20"
+                      height="20"
+                      loading="lazy"
+                    />
+                  </button>
+                </div>
               </div>
 
               <div className={styles.modal__content}>{children}</div>
