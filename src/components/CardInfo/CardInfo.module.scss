@@ -6,6 +6,11 @@
     gap: 20px;
     min-width: 300px;
   }
+
+  &Title {
+    @include line-clamp(2);
+  }
+  
   &Desc {
     @include flex(column);
     gap: 10px;
@@ -28,4 +33,5 @@
   padding-top: 5px;
   border-top: 1px solid;
   font-size: rem(14);
+  @include line-clamp(2);
 }

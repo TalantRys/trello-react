@@ -5,6 +5,7 @@ import EditButton from "../ui/EditButton/EditButton";
 import Textarea from "../ui/Textarea/Textarea";
 import { handleEnterKey } from "../../functions/keyDown";
 import Button from "../ui/Button/Button";
+import classNames from "classnames";
 
 type CardInfoProps = {
   card: CardType | undefined;
@@ -24,7 +25,9 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
 
   return (
     <div className={styles.modalCard}>
-      <h2 className="modal-title">{card?.title}</h2>
+      <h2 className={classNames("modal-title", styles.modalTitle)}>
+        {card?.title}
+      </h2>
       <div className={styles.modalDesc}>
         {!cardDesc && !isEditing ? (
           <Button onClick={() => editCard(true)}>Add description</Button>
