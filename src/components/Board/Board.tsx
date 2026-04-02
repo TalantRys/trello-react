@@ -5,13 +5,13 @@ import { useState } from "react";
 import ModalProvider from "../ModalProvider/ModalProvider";
 import CardInfo from "../CardInfo/CardInfo";
 import AuthorForm from "../AuthorForm/AuthorForm";
-import { cards, columnsArr } from "../../data/data";
+import { cardsArr, columnsArr } from "../../data/data";
 import Card from "../Card/Card";
-import type { ColumnType } from "../../types";
+import type { CardType, ColumnType } from "../../types";
 
 function Board() {
   const [author, setAuthor] = useState("");
-  // const [cards, setCards] = useState(cardsArr);
+  const [cards, setCards] = useState(cardsArr);
   const [columns, setColumns] = useState(columnsArr);
   const [showModal, setShowModal] = useState(true);
   const [showCardModal, setShowCardModal] = useState(false);
@@ -35,6 +35,20 @@ function Board() {
         column.id === updatedColumn.id ? updatedColumn : column,
       ),
     );
+  };
+
+  const handleAddCard = (newCard: CardType) => {
+    setCards([...cards, { ...newCard, author }]);
+  };
+
+  const handleEditCard = (changedCard: CardType) => {
+    setCards(
+      cards.map((card) => (card.id === changedCard.id ? changedCard : card)),
+    );
+  };
+
+  const handleCardDelete = (cardId: number) => {
+    setCards(cards.filter((card) => card.id !== cardId));
   };
 
   return (
@@ -75,6 +89,7 @@ function Board() {
                 key={column.id}
                 column={column}
                 onColumnChange={handleColumnChange}
+                onAddCard={handleAddCard}
               >
                 {cards.map(
                   (card) =>
@@ -83,6 +98,8 @@ function Board() {
                         key={card.id}
                         card={card}
                         onCardClick={() => handleCardClick(card.id)}
+                        onCardEdit={handleEditCard}
+                        onCardDelete={() => handleCardDelete(card.id)}
                       />
                     ),
                 )}
