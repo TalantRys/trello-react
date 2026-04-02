@@ -48,6 +48,7 @@ export default function Column({
       <div className={styles.column__header}>
         {isEditTitle ? (
           <input
+            maxLength={50}
             className={classNames(styles.column__input, "input")}
             type="text"
             autoFocus
@@ -71,6 +72,7 @@ export default function Column({
 
         {isAddingCard && (
           <Textarea
+            maxLength={100}
             value={newCardTitle}
             onChange={(e) => setNewCardTitle(e.target.value)}
             onKeyDown={(e) => handleEnterKey(e, addNewCard)}

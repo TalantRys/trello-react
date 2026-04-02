@@ -46,6 +46,7 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
         {isEditing ? (
           <div className={styles.modalDescContent}>
             <Textarea
+              maxLength={1000}
               value={cardDesc}
               placeholder="Write description of card"
               onChange={(e) => setCardDesc(e.target.value)}

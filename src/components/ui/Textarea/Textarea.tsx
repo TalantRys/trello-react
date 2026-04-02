@@ -1,11 +1,16 @@
 import classNames from "classnames";
-import type { ChangeEventHandler, KeyboardEventHandler } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEventHandler,
+  type TextareaHTMLAttributes,
+} from "react";
 import styles from "./Textarea.module.scss";
 
-type TextareaProps = {
+type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   value: string | undefined;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
-  onKeyDown: KeyboardEventHandler<HTMLTextAreaElement>;
   className?:
     | classNames.Value
     | classNames.Mapping
@@ -18,18 +23,33 @@ type TextareaProps = {
 export default function Textarea({
   value,
   onChange,
-  onKeyDown,
   className,
   placeholder = "Write name of new card",
+  ...props
 }: TextareaProps) {
+  const [text, setText] = useState(value || "");
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.style.height = "auto";
+      textAreaRef.current.style.height =
+        textAreaRef.current.scrollHeight + "px";
+    }
+  }, [text]);
+
   return (
     <textarea
+      ref={textAreaRef}
       className={classNames("textarea", styles.textarea, className)}
       placeholder={placeholder}
-      value={value}
+      value={text}
       autoFocus
-      onChange={onChange}
-      onKeyDown={onKeyDown}
+      onChange={(e) => {
+        setText(e.target.value);
+        onChange(e);
+      }}
+      {...props}
     ></textarea>
   );
 }

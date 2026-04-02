@@ -45,6 +45,7 @@ function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
   ) : (
     <div className={styles.card}>
       <Textarea
+        maxLength={100}
         value={cardTitle}
         onChange={(e) => setCardTitle(e.target.value)}
         onKeyDown={(e) => handleEnterKey(e, editCard)}
