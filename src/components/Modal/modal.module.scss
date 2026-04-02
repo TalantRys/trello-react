@@ -1,3 +1,5 @@
+@use "@assets/scss/bundle" as *;
+
 .modal-overlay {
   position: fixed;
   z-index: -1;
@@ -33,21 +35,32 @@
     visibility: visible;
     pointer-events: auto;
   }
-}
-.modal__container {
-  position: relative;
-  padding: 40px;
-  background: var(--bg);
-  border-radius: 20px;
-  max-width: 600px;
-  margin: auto;
-}
-.modal__close {
-  position: absolute;
-  z-index: 5;
-  right: 16px;
-  top: 16px;
-  padding: 3px;
-  width: 26px;
-  height: 26px;
+  &__container {
+    position: relative;
+    background: var(--bg);
+    overflow: hidden;
+    border-radius: 20px;
+    max-width: 600px;
+    margin: auto;
+  }
+  &__header {
+    @include flex(row, space-between, center);
+    padding: 20px 40px;
+    gap: 10px;
+    background-color: var(--accent-bg);
+  }
+  &__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    @include line-clamp(1);
+  }
+  &__close {
+    flex-shrink: 0;
+    padding: 3px;
+    width: 26px;
+    height: 26px;
+  }
+  &__content {
+    padding: 20px 40px 40px;
+  }
 }

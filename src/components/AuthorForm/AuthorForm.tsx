@@ -21,9 +21,7 @@ export default function AuthorForm({ stateValue, onSubmit }: AuthorFormProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2 className={classNames(styles.title, "modal-title")}>
-        Enter your name
-      </h2>
+      {/* <h2 className={classNames(styles.title, "modal-title")}>Enter your name</h2> */}
       <input
         id="name"
         name="name"
