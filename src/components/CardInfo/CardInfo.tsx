@@ -14,23 +14,62 @@ type CardInfoProps = {
 
 export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [cardDesc, setCardDesc] = useState(card?.description || "");
+  const [cardTitle, setCardTitle] = useState(card?.title || "");
 
-  const editCard = (isEdit = !isEditing) => {
+  const editCardDesc = (isEdit = !isEditing) => {
     setIsEditing(isEdit);
     if (isEdit) return;
 
     onCardEdit({ ...card, description: cardDesc });
   };
 
+  const editCardTitle = (isEdit = !isEditingTitle) => {
+    if (!cardTitle.trim()) {
+      alert("Title cannot be empty");
+      return;
+    }
+
+    setIsEditingTitle(isEdit);
+    if (isEdit) return;
+
+    onCardEdit({ ...card, title: cardTitle });
+  };
+
   return (
     <div className={styles.modalCard}>
-      <h2 className={classNames("modal-title", styles.modalTitle)}>
-        {card?.title}
-      </h2>
+      <div className={styles.modalTitleWrapper}>
+        {isEditingTitle ? (
+          <>
+            <Textarea
+              maxLength={100}
+              value={cardTitle}
+              placeholder="Enter card title"
+              onChange={(e) => setCardTitle(e.target.value)}
+              onKeyDown={(e) => handleEnterKey(e, editCardTitle)}
+            />
+            <Button active={isEditingTitle} onClick={() => editCardTitle()}>
+              Save
+            </Button>
+          </>
+        ) : (
+          <>
+            <h2 className={classNames("modal-title", styles.modalTitle)}>
+              {card?.title}
+            </h2>
+            <EditButton
+              onClick={() => {
+                setIsEditingTitle(!isEditingTitle);
+              }}
+            ></EditButton>
+          </>
+        )}
+      </div>
+
       <div className={styles.modalDesc}>
         {!cardDesc && !isEditing ? (
-          <Button onClick={() => editCard(true)}>Add description</Button>
+          <Button onClick={() => editCardDesc(true)}>Add description</Button>
         ) : (
           <div className={styles.modalDescHeader}>
             <h3 className={styles.modalDescTitle}>Description:</h3>
@@ -50,9 +89,9 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
               value={cardDesc}
               placeholder="Write description of card"
               onChange={(e) => setCardDesc(e.target.value)}
-              onKeyDown={(e) => handleEnterKey(e, editCard)}
+              onKeyDown={(e) => handleEnterKey(e, editCardDesc)}
             />
-            <Button active={isEditing} onClick={() => editCard()}>
+            <Button active={isEditing} onClick={() => editCardDesc()}>
               Save
             </Button>
           </div>
