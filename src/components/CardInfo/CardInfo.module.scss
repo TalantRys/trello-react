@@ -1,9 +1,27 @@
 @use "@assets/scss/bundle" as *;
 
-.modal-card {
-  @include flex(column);
-  gap: 20px;
-  min-width: 300px;
+.modal {
+  &Card {
+    @include flex(column);
+    gap: 20px;
+    min-width: 300px;
+  }
+  &Desc {
+    @include flex(column);
+    gap: 10px;
+
+    &Header {
+      @include flex(row, space-between, center);
+    }
+
+    &Title {
+      font-weight: 500;
+    }
+
+    &Content {
+      word-break: break-all;
+    }
+  }
 }
 
 .author {

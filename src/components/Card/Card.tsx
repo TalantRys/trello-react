@@ -4,6 +4,7 @@ import styles from "./card.module.scss";
 import Textarea from "../ui/Textarea/Textarea";
 import { handleEnterKey } from "../../functions/keyDown";
 import Button from "../ui/Button/Button";
+import EditButton from "../ui/EditButton/EditButton";
 
 type CardProps = {
   card: CardType;
@@ -27,13 +28,12 @@ function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
     <div className={styles.card} onClick={() => onCardClick(card.id)}>
       <div className={styles.card__header}>
         <span className={styles.card__title}>{card.title}</span>
-        <button
-          className={styles.card__button}
+        <EditButton
           onClick={(e) => {
             e.stopPropagation();
             setIsEditing(!isEditing);
           }}
-        ></button>
+        ></EditButton>
       </div>
       {!!card.description && (
         <div className={styles.card__content}>{card.description}</div>
@@ -49,14 +49,14 @@ function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
         onChange={(e) => setCardTitle(e.target.value)}
         onKeyDown={(e) => handleEnterKey(e, editCard)}
       />
-     <div className={styles.card__buttons}>
+      <div className={styles.card__buttons}>
         <Button active={isEditing} onClick={() => editCard(!isEditing)}>
           Save
         </Button>
         <Button variant="danger" onClick={() => onCardDelete()}>
           Delete card
         </Button>
-     </div>
+      </div>
     </div>
   );
 }

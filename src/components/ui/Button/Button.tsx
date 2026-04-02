@@ -2,10 +2,13 @@ import classNames from "classnames";
 import { type PropsWithChildren } from "react";
 import styles from "./Button.module.scss";
 
-type ButtonProps = {
+export type ButtonProps = {
   active?: boolean;
   variant?: "danger" | null;
-  onClick: () => void;
+  onClick:
+    | ((event: React.MouseEvent<HTMLButtonElement>) => void)
+    | (() => void)
+    | undefined;
   className?:
     | classNames.Value
     | classNames.Mapping

@@ -3,7 +3,7 @@ import type { ChangeEventHandler, KeyboardEventHandler } from "react";
 import styles from "./Textarea.module.scss";
 
 type TextareaProps = {
-  value: string;
+  value: string | undefined;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
   onKeyDown: KeyboardEventHandler<HTMLTextAreaElement>;
   className?:
@@ -12,6 +12,7 @@ type TextareaProps = {
     | classNames.ArgumentArray
     | classNames.ReadonlyArgumentArray
     | null;
+  placeholder?: string;
 };
 
 export default function Textarea({
@@ -19,11 +20,12 @@ export default function Textarea({
   onChange,
   onKeyDown,
   className,
+  placeholder = "Write name of new card",
 }: TextareaProps) {
   return (
     <textarea
       className={classNames("textarea", styles.textarea, className)}
-      placeholder="Write name of new card"
+      placeholder={placeholder}
       value={value}
       autoFocus
       onChange={onChange}
