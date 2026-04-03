@@ -10,7 +10,13 @@
   &Title {
     @include line-clamp(2);
   }
-  
+
+  &TitleWrapper {
+    @include flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
   &Desc {
     @include flex(column);
     gap: 10px;

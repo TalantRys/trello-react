@@ -2,7 +2,7 @@ import classNames from "classnames";
 import styles from "./board.module.scss";
 import Column from "../Column/Column";
 import { useState } from "react";
-import ModalProvider from "../ModalProvider/ModalProvider";
+import Modal from "../Modal/Modal";
 import CardInfo from "../CardInfo/CardInfo";
 import AuthorForm from "../AuthorForm/AuthorForm";
 import { cardsArr, columnsArr } from "../../data/data";
@@ -53,21 +53,34 @@ function Board() {
 
   return (
     <>
-      <ModalProvider
+      <Modal
+        title="Enter your name"
         isOpen={showModal}
         onClose={() =>
           !author ? alert("Please enter your name") : setShowModal(!showModal)
         }
       >
         <AuthorForm stateValue={author} onSubmit={handleAuthorFormSubmit} />
-      </ModalProvider>
+      </Modal>
 
-      <ModalProvider
+      <Modal
+        title={
+          columns.find((column) => column.id === currentCard?.columnId)?.title
+        }
         isOpen={showCardModal}
         onClose={() => setShowCardModal(!showCardModal)}
+        menuItems={[
+          {
+            name: "Delete card",
+            onClick: () => {
+              handleCardDelete(currentCardId as number);
+              setShowCardModal(!showCardModal);
+            },
+          },
+        ]}
       >
         <CardInfo card={currentCard} onCardEdit={handleEditCard} />
-      </ModalProvider>
+      </Modal>
 
       <div className={styles.board}>
         <div className={classNames(styles.board__container, "container")}>
