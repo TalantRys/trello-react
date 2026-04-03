@@ -21,7 +21,9 @@ export default function AuthorForm({ stateValue, onSubmit }: AuthorFormProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2 className={classNames(styles.title, "modal-title")}>Enter your name</h2>
+      <h2 className={classNames(styles.title, "modal-title")}>
+        Enter your name
+      </h2>
       <input
         id="name"
         name="name"
@@ -30,6 +32,7 @@ export default function AuthorForm({ stateValue, onSubmit }: AuthorFormProps) {
         autoFocus
         defaultValue={stateValue}
         placeholder="Your name"
+        maxLength={50}
       />
       <button className={classNames(styles.submit, "button")} type="submit">
         Submit

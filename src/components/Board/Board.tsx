@@ -72,7 +72,9 @@ function Board() {
       <div className={styles.board}>
         <div className={classNames(styles.board__container, "container")}>
           <div className={styles.board__header}>
-            {!!author && <h2>Welcome, {author}</h2>}
+            {!!author && (
+              <h2 className={styles.board__title}>Welcome, {author}</h2>
+            )}
 
             <button
               className="button"
