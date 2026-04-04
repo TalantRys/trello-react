@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useState, type FunctionComponent } from "react";
+import { useEffect, useRef, useState, type FunctionComponent } from "react";
 import Button from "../ui/Button/Button";
 import styles from "./Menu.module.scss";
 import icon from "/ellipsis-solid-full.svg";
@@ -10,11 +10,27 @@ export type MenuProps = {
 
 const Menu: FunctionComponent<MenuProps> = ({ items = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("click", handleClickOutside);
+      return () => {
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }
+  }, [isOpen]);
 
   if (items.length === 0) return null;
 
   return (
-    <>
+    <div ref={ref}>
       <button
         className={styles["menu-toggle"]}
         onClick={() => setIsOpen(!isOpen)}
@@ -43,7 +59,7 @@ const Menu: FunctionComponent<MenuProps> = ({ items = [] }) => {
           ))}
         </ul>
       </nav>
-    </>
+    </div>
   );
 };
 
