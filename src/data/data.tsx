@@ -13,6 +13,10 @@ export const cardsArr: CardType[] = [
     columnId: 0,
     title: "Card 1",
     author: "Billy",
+    comments: [
+      { id: 0, author: "Roman", text: "Cool!" },
+      { id: 1, author: "Kevin", text: "Great!" },
+    ],
   },
   {
     id: 1,
@@ -20,11 +24,13 @@ export const cardsArr: CardType[] = [
     title: "Card 2",
     author: "Carl",
     description: "Lorem ipsum dolor sit amet consectetur adipisicing.",
+    comments: []
   },
   {
     id: 2,
     columnId: 1,
     title: "Card 3",
     author: "Robert",
+    comments: []
   },
 ];

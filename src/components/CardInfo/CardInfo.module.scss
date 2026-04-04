@@ -4,7 +4,6 @@
   &Card {
     @include flex(column);
     gap: 20px;
-    min-width: 300px;
   }
 
   &Title {

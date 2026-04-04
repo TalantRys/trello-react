@@ -1,13 +1,14 @@
 import classNames from "classnames";
-import styles from "./board.module.scss";
-import Column from "../Column/Column";
 import { useState } from "react";
-import Modal from "../Modal/Modal";
-import CardInfo from "../CardInfo/CardInfo";
-import AuthorForm from "../AuthorForm/AuthorForm";
 import { cardsArr, columnsArr } from "../../data/data";
+import type { CardType, ColumnType, CommentType } from "../../types";
+import AuthorForm from "../AuthorForm/AuthorForm";
 import Card from "../Card/Card";
-import type { CardType, ColumnType } from "../../types";
+import CardInfo from "../CardInfo/CardInfo";
+import Column from "../Column/Column";
+import Comments from "../Comments/Comments";
+import Modal from "../Modal/Modal";
+import styles from "./board.module.scss";
 
 function Board() {
   const [author, setAuthor] = useState("");
@@ -17,7 +18,9 @@ function Board() {
   const [showCardModal, setShowCardModal] = useState(false);
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
 
-  const currentCard = cards.find((card) => card.id === currentCardId);
+  const currentCard: CardType | undefined = cards.find(
+    (card) => card.id === currentCardId,
+  );
 
   const handleAuthorFormSubmit = (name: string) => {
     setAuthor(name);
@@ -65,7 +68,10 @@ function Board() {
 
       <Modal
         title={
-          columns.find((column) => column.id === currentCard?.columnId)?.title
+          currentCard
+            ? columns.find((column) => column.id === currentCard.columnId)
+                ?.title
+            : ""
         }
         isOpen={showCardModal}
         onClose={() => setShowCardModal(!showCardModal)}
@@ -79,7 +85,18 @@ function Board() {
           },
         ]}
       >
-        <CardInfo card={currentCard} onCardEdit={handleEditCard} />
+        {!!currentCard && (
+          <>
+            <CardInfo card={currentCard} onCardEdit={handleEditCard} />
+            <Comments
+              author={author}
+              comments={currentCard.comments}
+              onCardEdit={(comments: CommentType[]) =>
+                handleEditCard({ ...currentCard, comments })
+              }
+            />
+          </>
+        )}
       </Modal>
 
       <div className={styles.board}>

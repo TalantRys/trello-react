@@ -2,7 +2,6 @@ import classNames from "classnames";
 import {
   useEffect,
   useRef,
-  useState,
   type ChangeEventHandler,
   type TextareaHTMLAttributes,
 } from "react";
@@ -27,7 +26,6 @@ export default function Textarea({
   placeholder = "Write name of new card",
   ...props
 }: TextareaProps) {
-  const [text, setText] = useState(value || "");
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -36,17 +34,16 @@ export default function Textarea({
       textAreaRef.current.style.height =
         textAreaRef.current.scrollHeight + "px";
     }
-  }, [text]);
+  }, [value]);
 
   return (
     <textarea
       ref={textAreaRef}
       className={classNames("textarea", styles.textarea, className)}
       placeholder={placeholder}
-      value={text}
-      autoFocus
+      value={value}
+      autoFocus={props.autoFocus ?? true}
       onChange={(e) => {
-        setText(e.target.value);
         onChange(e);
       }}
       {...props}
