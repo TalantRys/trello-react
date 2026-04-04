@@ -9,12 +9,18 @@ import Column from "../Column/Column";
 import Comments from "../Comments/Comments";
 import Modal from "../Modal/Modal";
 import styles from "./board.module.scss";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 function Board() {
-  const [author, setAuthor] = useState("");
-  const [cards, setCards] = useState(cardsArr);
-  const [columns, setColumns] = useState(columnsArr);
-  const [showModal, setShowModal] = useState(true);
+  const [author, setAuthor] = useLocalStorage("author", "");
+  const [cards, setCards] = useLocalStorage<CardType[]>("cards", cardsArr);
+  const [columns, setColumns] = useLocalStorage<ColumnType[]>(
+    "columns",
+    columnsArr,
+  );
+  const [showModal, setShowModal] = useState(() =>
+    author === "" ? true : false,
+  );
   const [showCardModal, setShowCardModal] = useState(false);
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
 
