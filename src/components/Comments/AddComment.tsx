@@ -12,10 +12,11 @@ const AddComment: FunctionComponent<AddCommentProps> = ({ onAddComment }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleAdd = (isEdit: boolean) => {
-    if (isEdit) return;
+    const comment = text.replace(/(\r\n|\n|\r){2,}/g, "\n\n").trim();
+    if (isEdit || comment === "") return;
 
     setText("");
-    onAddComment(text.replace(/(\r\n|\n|\r){2,}/g, "\n\n"));
+    onAddComment(comment);
     setIsEditing(isEdit);
   };
 
@@ -29,7 +30,7 @@ const AddComment: FunctionComponent<AddCommentProps> = ({ onAddComment }) => {
         onChange={(e) => setText(e.target.value)}
         onFocus={() => setIsEditing(true)}
         onBlur={(e) => e.target.value.trim() === "" && setIsEditing(false)}
-        onKeyDown={(e) => text.trim() !== "" && handleEnterKey(e, handleAdd)}
+        onKeyDown={(e) => handleEnterKey(e, handleAdd)}
       />
 
       {isEditing && (
