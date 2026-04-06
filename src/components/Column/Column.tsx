@@ -38,7 +38,7 @@ export default function Column({
       id: Date.now(),
       columnId: column.id,
       title: newCardTitle,
-      comments: []
+      comments: [],
     };
     onAddCard(newCard);
     setNewCardTitle("");
@@ -61,7 +61,7 @@ export default function Column({
           <p className={styles.column__title}>{editTitle}</p>
         )}
         <Button
-          active={isEditTitle}
+          variant={isEditTitle ? "success" : null}
           className={styles.button}
           onClick={() => saveNewTitle(!isEditTitle)}
         >
@@ -81,7 +81,10 @@ export default function Column({
         )}
       </div>
       <div className={styles.column__footer}>
-        <Button active={isAddingCard} onClick={() => addNewCard(!isAddingCard)}>
+        <Button
+          variant={isAddingCard ? "success" : null}
+          onClick={() => addNewCard(!isAddingCard)}
+        >
           Add Card
         </Button>
       </div>

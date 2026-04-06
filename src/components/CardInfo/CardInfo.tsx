@@ -49,7 +49,11 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
               onChange={(e) => setCardTitle(e.target.value)}
               onKeyDown={(e) => handleEnterKey(e, editCardTitle)}
             />
-            <Button active={isEditingTitle} onClick={() => editCardTitle()}>
+            <Button
+              variant="success"
+              disabled={!cardTitle.trim()}
+              onClick={() => editCardTitle()}
+            >
               Save
             </Button>
           </>
@@ -91,7 +95,7 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
               onChange={(e) => setCardDesc(e.target.value)}
               onKeyDown={(e) => handleEnterKey(e, editCardDesc)}
             />
-            <Button active={isEditing} onClick={() => editCardDesc()}>
+            <Button variant="success" onClick={() => editCardDesc()}>
               Save
             </Button>
           </div>

@@ -10,6 +10,7 @@ import Comments from "../Comments/Comments";
 import Modal from "../Modal/Modal";
 import styles from "./board.module.scss";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import Button from "../ui/Button/Button";
 
 function Board() {
   const [author, setAuthor] = useLocalStorage("author", "");
@@ -112,13 +113,12 @@ function Board() {
               <h2 className={styles.board__title}>Welcome, {author}</h2>
             )}
 
-            <button
-              className="button"
+            <Button
               disabled={showModal}
               onClick={() => setShowModal(true)}
             >
               {author ? "Change author" : "Add author"}
-            </button>
+            </Button>
           </div>
 
           <div className={styles.board__items}>

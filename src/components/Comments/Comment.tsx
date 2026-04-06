@@ -36,7 +36,7 @@ const Comment: FunctionComponent<CommentProps> = ({
             comment.text.trim() !== "" && handleEnterKey(e, setIsEditing)
           }
         />
-        <Button active={true} onClick={() => setIsEditing(false)}>
+        <Button variant="success" onClick={() => setIsEditing(false)}>
           Save
         </Button>
       </>

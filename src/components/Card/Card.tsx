@@ -59,7 +59,11 @@ function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
         onKeyDown={(e) => handleEnterKey(e, editCard)}
       />
       <div className={styles.card__buttons}>
-        <Button active={isEditing} onClick={() => editCard(!isEditing)}>
+        <Button
+          variant="success"
+          disabled={!cardTitle.trim()}
+          onClick={() => editCard(!isEditing)}
+        >
           Save
         </Button>
         <Button variant="danger" onClick={() => onCardDelete()}>

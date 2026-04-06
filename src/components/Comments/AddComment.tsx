@@ -34,7 +34,7 @@ const AddComment: FunctionComponent<AddCommentProps> = ({ onAddComment }) => {
       />
 
       {isEditing && (
-        <Button active={true} onClick={() => handleAdd(false)}>
+        <Button variant="success" onClick={() => handleAdd(false)}>
           Save
         </Button>
       )}
