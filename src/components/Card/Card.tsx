@@ -5,6 +5,7 @@ import Textarea from "../ui/Textarea/Textarea";
 import { handleEnterKey } from "../../functions/keyDown";
 import Button from "../ui/Button/Button";
 import EditButton from "../ui/EditButton/EditButton";
+import commentIcon from "/comment-dots-solid-full.svg?url";
 
 type CardProps = {
   card: CardType;
@@ -39,7 +40,14 @@ function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
         <div className={styles.card__content}>{card.description}</div>
       )}
       <div className={styles.card__footer}>
-        <span className={styles.card__author}>Author: {card.author}</span>
+        <span className={styles.card__author}>By: {card.author}</span>
+
+        {!!card.comments.length && (
+          <span className={styles.card__icon}>
+            <img src={commentIcon} alt="comment-icon" width={20} height={20} />
+            {card.comments.length}
+          </span>
+        )}
       </div>
     </div>
   ) : (
