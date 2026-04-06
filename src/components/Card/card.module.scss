@@ -44,12 +44,20 @@
 
   &__footer {
     padding-top: 5px;
+    @include grid-plus(0.7fr 0.3fr, 5px);
   }
   // .card__author
 
   &__author {
     font-size: rem(12);
     @include line-clamp(1);
+  }
+
+  // .card__icon
+  &__icon {
+    display: inline-block;
+    text-align: right;
+    @include flex($jc: right, $ai: center);
   }
 
   // .card__buttons

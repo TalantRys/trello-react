@@ -23,6 +23,7 @@ const Comment: FunctionComponent<CommentProps> = ({
     commentContent = (
       <>
         <Textarea
+          autoFocus
           maxLength={1000}
           value={comment.text}
           onChange={(e) => {
@@ -36,7 +37,7 @@ const Comment: FunctionComponent<CommentProps> = ({
             comment.text.trim() !== "" && handleEnterKey(e, setIsEditing)
           }
         />
-        <Button active={true} onClick={() => setIsEditing(false)}>
+        <Button variant="success" onClick={() => setIsEditing(false)}>
           Save
         </Button>
       </>

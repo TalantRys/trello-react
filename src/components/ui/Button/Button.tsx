@@ -1,14 +1,9 @@
 import classNames from "classnames";
-import { type PropsWithChildren } from "react";
+import { type ButtonHTMLAttributes, type PropsWithChildren } from "react";
 import styles from "./Button.module.scss";
 
-export type ButtonProps = {
-  active?: boolean;
-  variant?: "danger" | null;
-  onClick:
-    | ((event: React.MouseEvent<HTMLButtonElement>) => void)
-    | (() => void)
-    | undefined;
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: "success" | "danger" | null;
   className?:
     | classNames.Value
     | classNames.Mapping
@@ -19,10 +14,9 @@ export type ButtonProps = {
 
 export default function Button({
   children,
-  active = false,
   variant,
-  onClick,
   className,
+  ...props
 }: PropsWithChildren<ButtonProps>) {
   return (
     <button
@@ -30,10 +24,9 @@ export default function Button({
         "button",
         styles.button,
         !!variant && styles[variant],
-        { [styles.active]: active },
         className,
       )}
-      onClick={onClick}
+      {...props}
     >
       {children}
     </button>

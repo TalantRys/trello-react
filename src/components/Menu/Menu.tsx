@@ -27,7 +27,7 @@ const Menu: FunctionComponent<MenuProps> = ({ items = [] }) => {
     }
   }, [isOpen]);
 
-  if (items.length === 0) return null;
+  if (!items.length) return null;
 
   return (
     <div ref={ref}>

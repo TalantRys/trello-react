@@ -3,16 +3,18 @@
 
 .button {
   padding: 6px 12px;
-  &.active {
-    background-color: green;
-    &:hover {
-      background-color: color.change(green, $alpha: 0.5);
+  &:not(:disabled) {
+    &.success {
+      background-color: green;
+      &:hover {
+        background-color: color.change(green, $alpha: 0.5);
+      }
     }
-  }
-  &.danger {
-    background-color: red;
-    &:hover {
-      background-color: color.change(red, $alpha: 0.5);
+    &.danger {
+      background-color: red;
+      &:hover {
+        background-color: color.change(red, $alpha: 0.5);
+      }
     }
   }
 }

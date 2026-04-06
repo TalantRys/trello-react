@@ -15,7 +15,7 @@ const CommentList: FunctionComponent<CommentListProps> = ({
   onDeleteComment,
 }) => {
   return (
-    comments.length !== 0 && (
+    !!comments.length && (
       <ul className={styles.Comments_List}>
         {comments.toReversed().map((comment) => (
           <li key={comment.id} className={styles.Comments_Item}>
