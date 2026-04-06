@@ -38,6 +38,7 @@ export default function Column({
       id: Date.now(),
       columnId: column.id,
       title: newCardTitle,
+      comments: []
     };
     onAddCard(newCard);
     setNewCardTitle("");

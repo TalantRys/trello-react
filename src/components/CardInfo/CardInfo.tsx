@@ -96,9 +96,11 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
             </Button>
           </div>
         ) : (
-          <div className={styles.modalDescContent}>
-            <p>{cardDesc}</p>
-          </div>
+          cardDesc && (
+            <div className={styles.modalDescContent}>
+              <p>{cardDesc}</p>
+            </div>
+          )
         )}
       </div>
       <span className={styles.author}>By {card?.author}</span>

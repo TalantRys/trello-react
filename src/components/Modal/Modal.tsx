@@ -47,6 +47,7 @@ export default function Modal({
       nodeRef={nodeRef}
       in={isOpen}
       timeout={300}
+      appear
       unmountOnExit
       onEnter={() => lockScroll(true)}
       onExit={() => lockScroll(false)}

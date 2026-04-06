@@ -6,4 +6,11 @@ export type CardType = {
   title: string;
   author: string;
   description?: string;
-}
+  comments: CommentType[];
+};
+
+export type CommentType = {
+  id: number;
+  author: string;
+  text: string;
+};
