@@ -73,6 +73,7 @@ export default function Column({
 
         {isAddingCard && (
           <Textarea
+            autoFocus
             maxLength={100}
             value={newCardTitle}
             onChange={(e) => setNewCardTitle(e.target.value)}

@@ -53,6 +53,7 @@ function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
   ) : (
     <div className={styles.card}>
       <Textarea
+        autoFocus
         maxLength={100}
         value={cardTitle}
         onChange={(e) => setCardTitle(e.target.value)}

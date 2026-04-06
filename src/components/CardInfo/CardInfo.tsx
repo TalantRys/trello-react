@@ -43,6 +43,7 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
         {isEditingTitle ? (
           <>
             <Textarea
+              autoFocus
               maxLength={100}
               value={cardTitle}
               placeholder="Enter card title"
@@ -89,6 +90,7 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
         {isEditing ? (
           <div className={styles.modalDescContent}>
             <Textarea
+              autoFocus
               maxLength={1000}
               value={cardDesc}
               placeholder="Write description of card"

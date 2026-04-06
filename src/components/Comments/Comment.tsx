@@ -23,6 +23,7 @@ const Comment: FunctionComponent<CommentProps> = ({
     commentContent = (
       <>
         <Textarea
+          autoFocus
           maxLength={1000}
           value={comment.text}
           onChange={(e) => {

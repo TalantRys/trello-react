@@ -24,7 +24,6 @@ const AddComment: FunctionComponent<AddCommentProps> = ({ onAddComment }) => {
     <>
       <Textarea
         maxLength={1000}
-        autoFocus={false}
         placeholder="Write a comment"
         value={text}
         onChange={(e) => setText(e.target.value)}
