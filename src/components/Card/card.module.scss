@@ -57,6 +57,7 @@
   &__icon {
     display: inline-block;
     text-align: right;
+    @include flex($jc: right, $ai: center);
   }
 
   // .card__buttons

@@ -32,6 +32,7 @@ function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
         <EditButton
           onClick={(e) => {
             e.stopPropagation();
+            setCardTitle(card.title)
             setIsEditing(!isEditing);
           }}
         ></EditButton>
