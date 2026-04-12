@@ -1,43 +1,41 @@
 import { useState, type FunctionComponent } from "react";
-import Textarea from "../ui/Textarea/Textarea";
+import { type FieldValues, type SubmitHandler } from "react-hook-form";
 import Button from "../ui/Button/Button";
-import { handleEnterKey } from "../../functions/keyDown";
+import Form from "../ui/Form/Form";
+import Textarea from "../ui/Textarea/Textarea";
 
 interface AddCommentProps {
   onAddComment: CallableFunction;
 }
 
 const AddComment: FunctionComponent<AddCommentProps> = ({ onAddComment }) => {
-  const [text, setText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleAdd = (isEdit: boolean) => {
-    const comment = text.replace(/(\r\n|\n|\r){2,}/g, "\n\n").trim();
-    if (isEdit || comment === "") return;
+  const handleAdd: SubmitHandler<FieldValues> = (data) => {
+    const comment = data.comment?.replace(/(\r\n|\n|\r){2,}/g, "\n\n").trim();
+    if (comment === "") return;
 
-    setText("");
     onAddComment(comment);
-    setIsEditing(isEdit);
+    setIsEditing(!isEditing);
   };
 
   return (
-    <>
+    <Form
+      defaultValues={{
+        comment: "",
+      }}
+      onSubmit={handleAdd}
+    >
       <Textarea
+        name={"comment"}
         maxLength={1000}
         placeholder="Write a comment"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
         onFocus={() => setIsEditing(true)}
         onBlur={(e) => e.target.value.trim() === "" && setIsEditing(false)}
-        onKeyDown={(e) => handleEnterKey(e, handleAdd)}
       />
 
-      {isEditing && (
-        <Button variant="success" onClick={() => handleAdd(false)}>
-          Save
-        </Button>
-      )}
-    </>
+      {isEditing && <Button variant="success">Save</Button>}
+    </Form>
   );
 };
 

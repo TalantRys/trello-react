@@ -1,9 +1,10 @@
-import type { CommentType } from "../../types";
 import { useState, type FunctionComponent } from "react";
-import Textarea from "../ui/Textarea/Textarea";
+import type { FieldValues, SubmitHandler } from "react-hook-form";
+import type { CommentType } from "../../types";
 import Button from "../ui/Button/Button";
+import Form from "../ui/Form/Form";
+import Textarea from "../ui/Textarea/Textarea";
 import styles from "./Comments.module.scss";
-import { handleEnterKey } from "../../functions/keyDown";
 
 interface CommentProps {
   comment: CommentType;
@@ -19,28 +20,32 @@ const Comment: FunctionComponent<CommentProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   let commentContent;
 
+  const handleSubmit: SubmitHandler<FieldValues> = (data) => {
+    onChange({
+      ...comment,
+      text: data.commentText,
+    });
+    setIsEditing(false);
+  };
+
   if (isEditing) {
     commentContent = (
-      <>
+      <Form
+        defaultValues={{
+          commentText: comment.text,
+        }}
+        mode={"onChange"}
+        onSubmit={handleSubmit}
+      >
         <Textarea
+          name={"commentText"}
+          options={{ required: "Please enter comment" }}
           autoFocus
           maxLength={1000}
-          value={comment.text}
-          onChange={(e) => {
-            onChange({
-              ...comment,
-              text: e.target.value,
-            });
-          }}
           onBlur={(e) => e.target.value.trim() === "" && setIsEditing(false)}
-          onKeyDown={(e) =>
-            comment.text.trim() !== "" && handleEnterKey(e, setIsEditing)
-          }
         />
-        <Button variant="success" onClick={() => setIsEditing(false)}>
-          Save
-        </Button>
-      </>
+        <Button variant="success">Save</Button>
+      </Form>
     );
   } else {
     commentContent = (

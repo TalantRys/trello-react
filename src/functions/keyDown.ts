@@ -7,3 +7,11 @@ export function handleEnterKey(
     (event.target as HTMLInputElement | HTMLTextAreaElement).blur();
   }
 }
+
+export function isEnterKey(
+  event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+) {
+  if (!event.shiftKey && event.key === "Enter") {
+    return true;
+  } else return false;
+}
