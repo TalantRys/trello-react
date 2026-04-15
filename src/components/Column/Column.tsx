@@ -1,10 +1,12 @@
 import classNames from "classnames";
-import type { ColumnType } from "../../types";
-import styles from "./column.module.scss";
-import { useState, type PropsWithChildren } from "react";
-import Textarea from "../ui/Textarea/Textarea";
+import { useState, type MouseEvent, type PropsWithChildren } from "react";
+import { type FieldValues, type SubmitHandler } from "react-hook-form";
 import { handleEnterKey } from "../../functions/keyDown";
+import type { ColumnType } from "../../types";
 import Button from "../ui/Button/Button";
+import Form from "../ui/Form/Form";
+import Textarea from "../ui/Textarea/Textarea";
+import styles from "./column.module.scss";
 
 type ColumnProps = {
   column: ColumnType;
@@ -20,7 +22,6 @@ export default function Column({
 }: PropsWithChildren<ColumnProps>) {
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [editTitle, setEditTitle] = useState(column.title);
-  const [newCardTitle, setNewCardTitle] = useState("");
   const [isAddingCard, setIsAddingCard] = useState(false);
 
   function saveNewTitle(isEdit: boolean) {
@@ -30,19 +31,18 @@ export default function Column({
     onColumnChange(newTitle);
   }
 
-  function addNewCard(isAdd: boolean) {
-    setIsAddingCard(isAdd);
-    if (newCardTitle === "") return;
+  const onNewCardSubmit: SubmitHandler<FieldValues> = (data) => {
+    if (data.title === "") return;
 
     const newCard = {
       id: Date.now(),
       columnId: column.id,
-      title: newCardTitle,
+      title: data.title,
       comments: [],
     };
     onAddCard(newCard);
-    setNewCardTitle("");
-  }
+    setIsAddingCard(false);
+  };
 
   return (
     <div className={styles.column}>
@@ -72,19 +72,34 @@ export default function Column({
         {children}
 
         {isAddingCard && (
-          <Textarea
-            autoFocus
-            maxLength={100}
-            value={newCardTitle}
-            onChange={(e) => setNewCardTitle(e.target.value)}
-            onKeyDown={(e) => handleEnterKey(e, addNewCard)}
-          />
+          <Form
+            id={"add-new-card"}
+            defaultValues={{ title: "" }}
+            onSubmit={onNewCardSubmit}
+          >
+            <Textarea
+              autoFocus
+              maxLength={100}
+              name="title"
+              options={{
+                maxLength: {
+                  value: 100,
+                  message: "Title must be less than 100",
+                },
+              }}
+            />
+          </Form>
         )}
       </div>
       <div className={styles.column__footer}>
         <Button
+          form={"add-new-card"}
+          type={"button"}
           variant={isAddingCard ? "success" : null}
-          onClick={() => addNewCard(!isAddingCard)}
+          onClick={(e: MouseEvent<HTMLButtonElement>) => {
+            e.currentTarget.form?.requestSubmit();
+            setIsAddingCard(!isAddingCard);
+          }}
         >
           Add Card
         </Button>

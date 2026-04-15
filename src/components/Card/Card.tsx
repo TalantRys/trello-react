@@ -1,10 +1,11 @@
 import { useState } from "react";
+import type { FieldValues, SubmitHandler } from "react-hook-form";
 import type { CardType } from "../../types";
-import styles from "./card.module.scss";
-import Textarea from "../ui/Textarea/Textarea";
-import { handleEnterKey } from "../../functions/keyDown";
 import Button from "../ui/Button/Button";
 import EditButton from "../ui/EditButton/EditButton";
+import Form from "../ui/Form/Form";
+import Textarea from "../ui/Textarea/Textarea";
+import styles from "./card.module.scss";
 import commentIcon from "/comment-dots-solid-full.svg?url";
 
 type CardProps = {
@@ -16,13 +17,10 @@ type CardProps = {
 
 function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [cardTitle, setCardTitle] = useState(card.title);
 
-  const editCard = (isEdit: boolean) => {
-    setIsEditing(isEdit);
-    if (isEdit) return;
-
-    onCardEdit({ ...card, title: cardTitle });
+  const handleSubmit: SubmitHandler<FieldValues> = (data) => {
+    onCardEdit({ ...card, title: data.title });
+    setIsEditing(false);
   };
 
   return !isEditing ? (
@@ -32,7 +30,6 @@ function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
         <EditButton
           onClick={(e) => {
             e.stopPropagation();
-            setCardTitle(card.title)
             setIsEditing(!isEditing);
           }}
         ></EditButton>
@@ -52,27 +49,32 @@ function Card({ card, onCardClick, onCardEdit, onCardDelete }: CardProps) {
       </div>
     </div>
   ) : (
-    <div className={styles.card}>
+    <Form
+      defaultValues={{
+        title: card.title,
+      }}
+      mode={"onChange"}
+      className={styles.card}
+      onSubmit={handleSubmit}
+    >
       <Textarea
+        name="title"
         autoFocus
         maxLength={100}
-        value={cardTitle}
-        onChange={(e) => setCardTitle(e.target.value)}
-        onKeyDown={(e) => handleEnterKey(e, editCard)}
+        options={{
+          required: "Please enter title of card",
+          maxLength: { value: 100, message: "Title must be less than 100" },
+        }}
       />
       <div className={styles.card__buttons}>
-        <Button
-          variant="success"
-          disabled={!cardTitle.trim()}
-          onClick={() => editCard(!isEditing)}
-        >
+        <Button variant="success" type="submit">
           Save
         </Button>
-        <Button variant="danger" onClick={() => onCardDelete()}>
+        <Button variant="danger" type="button" onClick={() => onCardDelete()}>
           Delete card
         </Button>
       </div>
-    </div>
+    </Form>
   );
 }
 export default Card;

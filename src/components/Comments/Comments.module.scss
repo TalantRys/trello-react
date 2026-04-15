@@ -14,13 +14,12 @@
     @include flex(column);
     gap: 10px;
   }
-  
+
   &_Item {
   }
 }
 
 .Comment {
-
   // .Comment_Author
 
   &_Author {
@@ -42,19 +41,19 @@
   // .Comment_Buttons
 
   &_Buttons {
-    > :not(:last-child){
+    > :not(:last-child) {
       margin-right: 10px;
     }
   }
 
   // .Comment_Button
-  &_Button{
-    font-size: .9rem;
+  &_Button {
+    font-size: 0.9rem;
     background-color: initial;
     padding: 0;
     text-decoration: underline;
     color: blue;
-    &:hover{
+    &:hover {
       background-color: initial;
     }
   }

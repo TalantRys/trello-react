@@ -1,11 +1,12 @@
-import { useState } from "react";
-import type { CardType } from "../../types";
-import styles from "./CardInfo.module.scss";
-import EditButton from "../ui/EditButton/EditButton";
-import Textarea from "../ui/Textarea/Textarea";
-import { handleEnterKey } from "../../functions/keyDown";
-import Button from "../ui/Button/Button";
 import classNames from "classnames";
+import { useState } from "react";
+import type { FieldValues, SubmitHandler } from "react-hook-form";
+import type { CardType } from "../../types";
+import Button from "../ui/Button/Button";
+import EditButton from "../ui/EditButton/EditButton";
+import Form from "../ui/Form/Form";
+import Textarea from "../ui/Textarea/Textarea";
+import styles from "./CardInfo.module.scss";
 
 type CardInfoProps = {
   card: CardType | undefined;
@@ -15,49 +16,38 @@ type CardInfoProps = {
 export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [cardDesc, setCardDesc] = useState(card?.description || "");
-  const [cardTitle, setCardTitle] = useState(card?.title || "");
 
-  const editCardDesc = (isEdit = !isEditing) => {
-    setIsEditing(isEdit);
-    if (isEdit) return;
-
-    onCardEdit({ ...card, description: cardDesc });
+  const handleDescSubmit: SubmitHandler<FieldValues> = (data) => {
+    onCardEdit({ ...card, description: data.cardDesc.trim() });
+    setIsEditing(false);
   };
 
-  const editCardTitle = (isEdit = !isEditingTitle) => {
-    if (!cardTitle.trim()) {
-      alert("Title cannot be empty");
-      return;
-    }
-
-    setIsEditingTitle(isEdit);
-    if (isEdit) return;
-
-    onCardEdit({ ...card, title: cardTitle });
+  const handleTitleSubmit: SubmitHandler<FieldValues> = (data) => {
+    onCardEdit({ ...card, title: data.cardTitle.trim() });
+    setIsEditingTitle(false);
   };
 
   return (
     <div className={styles.modalCard}>
       <div className={styles.modalTitleWrapper}>
         {isEditingTitle ? (
-          <>
+          <Form
+            defaultValues={{
+              cardTitle: card?.title,
+            }}
+            mode={"onChange"}
+            onSubmit={handleTitleSubmit}
+            style={{ width: "100%" }}
+          >
             <Textarea
+              name={"cardTitle"}
               autoFocus
               maxLength={100}
-              value={cardTitle}
               placeholder="Enter card title"
-              onChange={(e) => setCardTitle(e.target.value)}
-              onKeyDown={(e) => handleEnterKey(e, editCardTitle)}
+              options={{ required: "Please enter card title" }}
             />
-            <Button
-              variant="success"
-              disabled={!cardTitle.trim()}
-              onClick={() => editCardTitle()}
-            >
-              Save
-            </Button>
-          </>
+            <Button variant="success">Save</Button>
+          </Form>
         ) : (
           <>
             <h2 className={classNames("modal-title", styles.modalTitle)}>
@@ -65,7 +55,7 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
             </h2>
             <EditButton
               onClick={() => {
-                setIsEditingTitle(!isEditingTitle);
+                setIsEditingTitle(true);
               }}
             ></EditButton>
           </>
@@ -73,8 +63,8 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
       </div>
 
       <div className={styles.modalDesc}>
-        {!cardDesc && !isEditing ? (
-          <Button onClick={() => editCardDesc(true)}>Add description</Button>
+        {!card?.description && !isEditing ? (
+          <Button onClick={() => setIsEditing(true)}>Add description</Button>
         ) : (
           <div className={styles.modalDescHeader}>
             <h3 className={styles.modalDescTitle}>Description:</h3>
@@ -88,23 +78,25 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
           </div>
         )}
         {isEditing ? (
-          <div className={styles.modalDescContent}>
+          <Form
+            defaultValues={{
+              cardDesc: card?.description,
+            }}
+            onSubmit={handleDescSubmit}
+            className={styles.modalDescContent}
+          >
             <Textarea
+              name={"cardDesc"}
               autoFocus
               maxLength={1000}
-              value={cardDesc}
               placeholder="Write description of card"
-              onChange={(e) => setCardDesc(e.target.value)}
-              onKeyDown={(e) => handleEnterKey(e, editCardDesc)}
             />
-            <Button variant="success" onClick={() => editCardDesc()}>
-              Save
-            </Button>
-          </div>
+            <Button variant="success">Save</Button>
+          </Form>
         ) : (
-          cardDesc && (
+          card?.description && (
             <div className={styles.modalDescContent}>
-              <p>{cardDesc}</p>
+              <p>{card?.description}</p>
             </div>
           )
         )}
