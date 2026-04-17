@@ -42,7 +42,11 @@ export default function Textarea({
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const { ref, ...rest }: UseFormRegisterReturn = register(name, options);
+  const { ref, ...rest }: UseFormRegisterReturn = register(name, {
+    ...options,
+    validate: (v) => v.trim().length > 0 || "Field cannot be empty",
+  });
+
   const value = watch(name);
 
   useImperativeHandle(ref, () => textAreaRef.current);
@@ -66,8 +70,8 @@ export default function Textarea({
           props.onKeyDown
             ? props.onKeyDown
             : (e: KeyboardEvent<HTMLTextAreaElement>) => {
-                if (isEnterKey(e) && value !== "") {
-                  (document.activeElement as HTMLElement)?.blur();
+                if (isEnterKey(e)) {
+                  e.preventDefault();
                   e.currentTarget.form?.requestSubmit();
                 }
               }

@@ -12,11 +12,9 @@ const AddComment: FunctionComponent<AddCommentProps> = ({ onAddComment }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleAdd: SubmitHandler<FieldValues> = (data) => {
-    const comment = data.comment?.replace(/(\r\n|\n|\r){2,}/g, "\n\n").trim();
-    if (comment === "") return;
-
-    onAddComment(comment);
+    onAddComment(data.comment);
     setIsEditing(!isEditing);
+    (document.activeElement as HTMLElement)?.blur();
   };
 
   return (

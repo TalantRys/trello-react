@@ -32,8 +32,6 @@ export default function Column({
   }
 
   const onNewCardSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (data.title === "") return;
-
     const newCard = {
       id: Date.now(),
       columnId: column.id,

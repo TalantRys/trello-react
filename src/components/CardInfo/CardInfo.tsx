@@ -18,12 +18,12 @@ export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
 
   const handleDescSubmit: SubmitHandler<FieldValues> = (data) => {
-    onCardEdit({ ...card, description: data.cardDesc.trim() });
+    onCardEdit({ ...card, description: data.cardDesc });
     setIsEditing(false);
   };
 
   const handleTitleSubmit: SubmitHandler<FieldValues> = (data) => {
-    onCardEdit({ ...card, title: data.cardTitle.trim() });
+    onCardEdit({ ...card, title: data.cardTitle });
     setIsEditingTitle(false);
   };
 
