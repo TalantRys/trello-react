@@ -23,15 +23,29 @@ export default function Form({
   ...props
 }: PropsWithChildren<FormProps>) {
   const methods = useForm({ defaultValues, mode: props.mode });
-  const reset = methods.reset;
+  const { reset } = methods;
 
   useEffect(() => {
     reset(defaultValues);
   }, [reset, defaultValues]);
 
+  const cleanSubmit: SubmitHandler<FieldValues> = (data) => {
+    const keys = Object.keys(data);
+    keys.forEach((key) => {
+      data[key] = data[key].replace(/(\r\n|\n|\r){2,}/g, "\n\n").trim();
+    });
+
+    const empty = keys.filter((key) => data[key] === "");
+    if (empty.length !== 0) {
+      return false;
+    }
+
+    onSubmit(data);
+  };
+
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} {...props}>
+      <form onSubmit={methods.handleSubmit(cleanSubmit)} {...props}>
         {children}
       </form>
     </FormProvider>

@@ -1,10 +1,9 @@
-import classNames from "classnames";
 import { useState, type MouseEvent, type PropsWithChildren } from "react";
 import { type FieldValues, type SubmitHandler } from "react-hook-form";
-import { handleEnterKey } from "../../functions/keyDown";
 import type { ColumnType } from "../../types";
 import Button from "../ui/Button/Button";
 import Form from "../ui/Form/Form";
+import Input from "../ui/Input/Input";
 import Textarea from "../ui/Textarea/Textarea";
 import styles from "./column.module.scss";
 
@@ -21,19 +20,15 @@ export default function Column({
   onAddCard,
 }: PropsWithChildren<ColumnProps>) {
   const [isEditTitle, setIsEditTitle] = useState(false);
-  const [editTitle, setEditTitle] = useState(column.title);
   const [isAddingCard, setIsAddingCard] = useState(false);
 
-  function saveNewTitle(isEdit: boolean) {
-    setIsEditTitle(isEdit);
-
-    const newTitle = { ...column, title: editTitle };
+  const saveNewTitle: SubmitHandler<FieldValues> = (data) => {
+    const newTitle = { ...column, title: data.columnTitle };
     onColumnChange(newTitle);
-  }
+    setIsEditTitle(false);
+  };
 
   const onNewCardSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (data.title === "") return;
-
     const newCard = {
       id: Date.now(),
       columnId: column.id,
@@ -48,22 +43,32 @@ export default function Column({
     <div className={styles.column}>
       <div className={styles.column__header}>
         {isEditTitle ? (
-          <input
-            maxLength={50}
-            className={classNames(styles.column__input, "input")}
-            type="text"
-            autoFocus
-            value={editTitle}
-            onChange={(e) => setEditTitle(e.target.value)}
-            onKeyDown={(e) => handleEnterKey(e, saveNewTitle)}
-          />
+          <Form
+            id="edit-column-title"
+            defaultValues={{ columnTitle: column.title }}
+            onSubmit={saveNewTitle}
+          >
+            <Input
+              name={"columnTitle"}
+              options={{ required: "Please enter column title", maxLength: 50 }}
+              maxLength={50}
+              className={styles.column__input}
+              type="text"
+              autoFocus
+            />
+          </Form>
         ) : (
-          <p className={styles.column__title}>{editTitle}</p>
+          <p className={styles.column__title}>{column.title}</p>
         )}
         <Button
+          form={"edit-column-title"}
+          type={"button"}
           variant={isEditTitle ? "success" : null}
           className={styles.button}
-          onClick={() => saveNewTitle(!isEditTitle)}
+          onClick={(e: MouseEvent<HTMLButtonElement>) => {
+            e.currentTarget.form?.requestSubmit();
+            setIsEditTitle(!isEditTitle);
+          }}
         >
           {!isEditTitle ? "Edit" : "Save"}
         </Button>
