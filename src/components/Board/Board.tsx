@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useState } from "react";
-import { cardsArr, columnsArr } from "../../data/data";
-import type { CardType, ColumnType, CommentType } from "../../types";
+import { cardsArr } from "../../data/data";
+import type { CardType, CommentType } from "../../types";
 import AuthorForm from "../AuthorForm/AuthorForm";
 import Card from "../Card/Card";
 import CardInfo from "../CardInfo/CardInfo";
@@ -11,14 +11,13 @@ import Modal from "../Modal/Modal";
 import styles from "./board.module.scss";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import Button from "../ui/Button/Button";
+import type { RootState } from "../../state/store";
+import { useSelector } from "react-redux";
 
 function Board() {
   const [author, setAuthor] = useLocalStorage("author", "");
   const [cards, setCards] = useLocalStorage<CardType[]>("cards", cardsArr);
-  const [columns, setColumns] = useLocalStorage<ColumnType[]>(
-    "columns",
-    columnsArr,
-  );
+  const columns = useSelector((state: RootState) => state.columns);
   const [showModal, setShowModal] = useState(() =>
     author === "" ? true : false,
   );
@@ -37,14 +36,6 @@ function Board() {
   const handleCardClick = (id: number) => {
     setCurrentCardId(id);
     setShowCardModal(true);
-  };
-
-  const handleColumnChange = (updatedColumn: ColumnType) => {
-    setColumns(
-      columns.map((column) =>
-        column.id === updatedColumn.id ? updatedColumn : column,
-      ),
-    );
   };
 
   const handleAddCard = (newCard: CardType) => {
@@ -126,7 +117,6 @@ function Board() {
               <Column
                 key={column.id}
                 column={column}
-                onColumnChange={handleColumnChange}
                 onAddCard={handleAddCard}
               >
                 {cards.map(
