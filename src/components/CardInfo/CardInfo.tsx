@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import { useState } from "react";
 import type { FieldValues, SubmitHandler } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { editCard } from "../../state/cards/cardSlice";
 import type { CardType } from "../../types";
 import Button from "../ui/Button/Button";
 import EditButton from "../ui/EditButton/EditButton";
@@ -9,21 +11,22 @@ import Textarea from "../ui/Textarea/Textarea";
 import styles from "./CardInfo.module.scss";
 
 type CardInfoProps = {
-  card: CardType | undefined;
-  onCardEdit: CallableFunction;
+  card: CardType;
 };
 
-export default function CardInfo({ card, onCardEdit }: CardInfoProps) {
+export default function CardInfo({ card }: CardInfoProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleDescSubmit: SubmitHandler<FieldValues> = (data) => {
-    onCardEdit({ ...card, description: data.cardDesc });
+    dispatch(editCard({ ...card, description: data.cardDesc }));
     setIsEditing(false);
   };
 
   const handleTitleSubmit: SubmitHandler<FieldValues> = (data) => {
-    onCardEdit({ ...card, title: data.cardTitle });
+    dispatch(editCard({ ...card, title: data.cardTitle }));
     setIsEditingTitle(false);
   };
 

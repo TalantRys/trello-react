@@ -1,24 +1,23 @@
 import { useState, type MouseEvent, type PropsWithChildren } from "react";
 import { type FieldValues, type SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { addCard } from "../../state/cards/cardSlice";
 import { editTitle } from "../../state/columns/columnSlice";
+import type { RootState } from "../../state/store";
 import type { ColumnType } from "../../types";
 import Button from "../ui/Button/Button";
 import Form from "../ui/Form/Form";
 import Input from "../ui/Input/Input";
 import Textarea from "../ui/Textarea/Textarea";
 import styles from "./column.module.scss";
-import type { RootState } from "../../state/store";
 
 type ColumnProps = {
   column: ColumnType;
-  onAddCard: CallableFunction;
 };
 
 export default function Column({
   children,
   column,
-  onAddCard,
 }: PropsWithChildren<ColumnProps>) {
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [isAddingCard, setIsAddingCard] = useState(false);
@@ -40,7 +39,7 @@ export default function Column({
       comments: [],
       author: author,
     };
-    onAddCard(newCard);
+    dispatch(addCard(newCard));
     setIsAddingCard(false);
   };
 

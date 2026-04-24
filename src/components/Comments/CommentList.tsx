@@ -1,19 +1,26 @@
 import type { FunctionComponent } from "react";
-import type { CardType } from "../../types";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../state/store";
+import type { CommentType } from "../../types";
 import Comment from "./Comment";
-import styles from './Comments.module.scss';
+import styles from "./Comments.module.scss";
 
 interface CommentListProps {
-  comments: CardType["comments"];
+  cardId: number;
   onChangeComment: CallableFunction;
   onDeleteComment: CallableFunction;
 }
 
 const CommentList: FunctionComponent<CommentListProps> = ({
-  comments,
+  cardId,
   onChangeComment,
   onDeleteComment,
 }) => {
+  const comments: CommentType[] = useSelector((state: RootState) => {
+    const card = state.cards.find((card) => card.id === cardId);
+    return card?.comments || [];
+  });
+
   return (
     !!comments.length && (
       <ul className={styles.Comments_List}>

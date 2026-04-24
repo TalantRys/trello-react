@@ -1,24 +1,23 @@
 import classNames from "classnames";
 import { useState } from "react";
-import { cardsArr } from "../../data/data";
-import type { CardType, CommentType } from "../../types";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCard } from "../../state/cards/cardSlice";
+import type { RootState } from "../../state/store";
+import type { CardType } from "../../types";
 import AuthorForm from "../AuthorForm/AuthorForm";
 import Card from "../Card/Card";
 import CardInfo from "../CardInfo/CardInfo";
 import Column from "../Column/Column";
 import Comments from "../Comments/Comments";
 import Modal from "../Modal/Modal";
-import styles from "./board.module.scss";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import Button from "../ui/Button/Button";
-import type { RootState } from "../../state/store";
-import { useDispatch, useSelector } from "react-redux";
+import styles from "./board.module.scss";
 
 function Board() {
   const dispatch = useDispatch();
 
   const author = useSelector((state: RootState) => state.author);
-  const [cards, setCards] = useLocalStorage<CardType[]>("cards", cardsArr);
+  const cards = useSelector((state: RootState) => state.cards);
   const columns = useSelector((state: RootState) => state.columns);
   const [showModal, setShowModal] = useState(() =>
     author === "" ? true : false,
@@ -37,20 +36,6 @@ function Board() {
   const handleCardClick = (id: number) => {
     setCurrentCardId(id);
     setShowCardModal(true);
-  };
-
-  const handleAddCard = (newCard: CardType) => {
-    setCards([...cards, { ...newCard, author }]);
-  };
-
-  const handleEditCard = (changedCard: CardType) => {
-    setCards(
-      cards.map((card) => (card.id === changedCard.id ? changedCard : card)),
-    );
-  };
-
-  const handleCardDelete = (cardId: number) => {
-    setCards(cards.filter((card) => card.id !== cardId));
   };
 
   return (
@@ -78,7 +63,7 @@ function Board() {
           {
             name: "Delete card",
             onClick: () => {
-              handleCardDelete(currentCardId as number);
+              dispatch(deleteCard(currentCardId as number));
               setShowCardModal(!showCardModal);
             },
           },
@@ -86,14 +71,8 @@ function Board() {
       >
         {!!currentCard && (
           <>
-            <CardInfo card={currentCard} onCardEdit={handleEditCard} />
-            <Comments
-              author={author}
-              comments={currentCard.comments}
-              onCardEdit={(comments: CommentType[]) =>
-                handleEditCard({ ...currentCard, comments })
-              }
-            />
+            <CardInfo card={currentCard} />
+            <Comments cardId={currentCard.id} author={author} />
           </>
         )}
       </Modal>
@@ -105,21 +84,14 @@ function Board() {
               <h2 className={styles.board__title}>Welcome, {author}</h2>
             )}
 
-            <Button
-              disabled={showModal}
-              onClick={() => setShowModal(true)}
-            >
+            <Button disabled={showModal} onClick={() => setShowModal(true)}>
               {author ? "Change author" : "Add author"}
             </Button>
           </div>
 
           <div className={styles.board__items}>
             {columns.map((column) => (
-              <Column
-                key={column.id}
-                column={column}
-                onAddCard={handleAddCard}
-              >
+              <Column key={column.id} column={column}>
                 {cards.map(
                   (card) =>
                     card.columnId === column.id && (
@@ -127,8 +99,6 @@ function Board() {
                         key={card.id}
                         card={card}
                         onCardClick={() => handleCardClick(card.id)}
-                        onCardEdit={handleEditCard}
-                        onCardDelete={() => handleCardDelete(card.id)}
                       />
                     ),
                 )}
