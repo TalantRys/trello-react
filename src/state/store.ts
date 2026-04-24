@@ -11,16 +11,18 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/es/storage"; // defaults to localStorage for web
 
+import AuthorReducer from "./author/authorSlice";
 import ColumnsReducer from "./columns/columnSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["columns"],
+  whitelist: ["columns", "author"],
 };
 
 const rootReducer = combineReducers({
   columns: ColumnsReducer,
+  author: AuthorReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -12,10 +12,12 @@ import styles from "./board.module.scss";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import Button from "../ui/Button/Button";
 import type { RootState } from "../../state/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Board() {
-  const [author, setAuthor] = useLocalStorage("author", "");
+  const dispatch = useDispatch();
+
+  const author = useSelector((state: RootState) => state.author);
   const [cards, setCards] = useLocalStorage<CardType[]>("cards", cardsArr);
   const columns = useSelector((state: RootState) => state.columns);
   const [showModal, setShowModal] = useState(() =>
@@ -28,8 +30,7 @@ function Board() {
     (card) => card.id === currentCardId,
   );
 
-  const handleAuthorFormSubmit = (name: string) => {
-    setAuthor(name);
+  const handleAuthorFormSubmit = () => {
     setShowModal(false);
   };
 
@@ -61,7 +62,7 @@ function Board() {
           !author ? alert("Please enter your name") : setShowModal(!showModal)
         }
       >
-        <AuthorForm stateValue={author} onSubmit={handleAuthorFormSubmit} />
+        <AuthorForm onSubmit={handleAuthorFormSubmit} />
       </Modal>
 
       <Modal
