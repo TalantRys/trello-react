@@ -1,7 +1,6 @@
 import type { FunctionComponent } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../state/store";
-import type { CommentType } from "../../types";
+import { useAppSelector } from "../../hooks/redux";
+import { selectComments } from "../../state/cards/cardSlice";
 import Comment from "./Comment";
 import styles from "./Comments.module.scss";
 
@@ -16,10 +15,7 @@ const CommentList: FunctionComponent<CommentListProps> = ({
   onChangeComment,
   onDeleteComment,
 }) => {
-  const comments: CommentType[] = useSelector((state: RootState) => {
-    const card = state.cards.find((card) => card.id === cardId);
-    return card?.comments || [];
-  });
+  const comments = useAppSelector((state) => selectComments(state, cardId));
 
   return (
     !!comments.length && (

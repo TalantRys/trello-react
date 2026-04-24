@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { type FunctionComponent } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks/redux";
 import {
   addComment,
   deleteComment,
@@ -17,7 +17,7 @@ type CommentsProps = {
 };
 
 const Comments: FunctionComponent<CommentsProps> = ({ cardId, author }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function handleAddComment(text: string) {
     dispatch(

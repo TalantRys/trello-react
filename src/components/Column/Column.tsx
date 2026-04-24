@@ -1,9 +1,9 @@
 import { useState, type MouseEvent, type PropsWithChildren } from "react";
 import { type FieldValues, type SubmitHandler } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { selectAuthor } from "../../state/author/authorSlice";
 import { addCard } from "../../state/cards/cardSlice";
 import { editTitle } from "../../state/columns/columnSlice";
-import type { RootState } from "../../state/store";
 import type { ColumnType } from "../../types";
 import Button from "../ui/Button/Button";
 import Form from "../ui/Form/Form";
@@ -22,8 +22,8 @@ export default function Column({
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [isAddingCard, setIsAddingCard] = useState(false);
 
-  const author = useSelector((state: RootState) => state.author);
-  const dispatch = useDispatch();
+  const author = useAppSelector(selectAuthor);
+  const dispatch = useAppDispatch();
 
   const saveNewTitle: SubmitHandler<FieldValues> = (data) => {
     const newTitle = { ...column, title: data.columnTitle };

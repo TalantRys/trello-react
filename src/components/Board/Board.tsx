@@ -1,9 +1,13 @@
 import classNames from "classnames";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteCard } from "../../state/cards/cardSlice";
-import type { RootState } from "../../state/store";
-import type { CardType } from "../../types";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { selectAuthor } from "../../state/author/authorSlice";
+import {
+  deleteCard,
+  selectCardById,
+  selectCards,
+} from "../../state/cards/cardSlice";
+import { selectColumns } from "../../state/columns/columnSlice";
 import AuthorForm from "../AuthorForm/AuthorForm";
 import Card from "../Card/Card";
 import CardInfo from "../CardInfo/CardInfo";
@@ -14,19 +18,20 @@ import Button from "../ui/Button/Button";
 import styles from "./board.module.scss";
 
 function Board() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const author = useSelector((state: RootState) => state.author);
-  const cards = useSelector((state: RootState) => state.cards);
-  const columns = useSelector((state: RootState) => state.columns);
+  const author = useAppSelector(selectAuthor);
+  const cards = useAppSelector(selectCards);
+  const columns = useAppSelector(selectColumns);
+
   const [showModal, setShowModal] = useState(() =>
     author === "" ? true : false,
   );
   const [showCardModal, setShowCardModal] = useState(false);
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
 
-  const currentCard: CardType | undefined = cards.find(
-    (card) => card.id === currentCardId,
+  const currentCard = useAppSelector((state) =>
+    currentCardId !== null ? selectCardById(state, currentCardId) : undefined,
   );
 
   const handleAuthorFormSubmit = () => {
@@ -69,10 +74,10 @@ function Board() {
           },
         ]}
       >
-        {!!currentCard && (
+        {!!currentCardId && (
           <>
-            <CardInfo card={currentCard} />
-            <Comments cardId={currentCard.id} author={author} />
+            <CardInfo cardId={currentCardId} />
+            <Comments cardId={currentCardId} author={author} />
           </>
         )}
       </Modal>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FieldValues, SubmitHandler } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks/redux";
 import { deleteCard, editCard } from "../../state/cards/cardSlice";
 import type { CardType } from "../../types";
 import Button from "../ui/Button/Button";
@@ -17,7 +17,7 @@ type CardProps = {
 
 function Card({ card, onCardClick }: CardProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
     dispatch(editCard({ ...card, title: data.title }));

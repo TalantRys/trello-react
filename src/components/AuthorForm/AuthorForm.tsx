@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import { type FieldValues, type SubmitHandler } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { addName } from "../../state/author/authorSlice";
-import type { RootState } from "../../state/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { addName, selectAuthor } from "../../state/author/authorSlice";
 import Form from "../ui/Form/Form";
 import Input from "../ui/Input/Input";
 import styles from "./AuthorForm.module.scss";
@@ -12,8 +11,8 @@ type AuthorFormProps = {
 };
 
 export default function AuthorForm({ onSubmit }: AuthorFormProps) {
-  const author = useSelector((state: RootState) => state.author);
-  const dispatch = useDispatch();
+  const author = useAppSelector(selectAuthor);
+  const dispatch = useAppDispatch();
 
   const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
     dispatch(addName(data.name));
