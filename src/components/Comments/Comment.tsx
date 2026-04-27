@@ -21,10 +21,7 @@ const Comment: FunctionComponent<CommentProps> = ({
   let commentContent;
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
-    onChange({
-      ...comment,
-      text: data.commentText,
-    });
+    onChange(comment.id, data.commentText);
     setIsEditing(false);
   };
 

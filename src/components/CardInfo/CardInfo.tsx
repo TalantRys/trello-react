@@ -2,7 +2,11 @@ import classNames from "classnames";
 import { useState } from "react";
 import type { FieldValues, SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { editCard, selectCardById } from "../../state/cards/cardSlice";
+import {
+  editCardTitle,
+  editCardDesc,
+  selectCardById,
+} from "../../state/cards/cardSlice";
 import Button from "../ui/Button/Button";
 import EditButton from "../ui/EditButton/EditButton";
 import Form from "../ui/Form/Form";
@@ -22,14 +26,14 @@ export default function CardInfo({ cardId }: CardInfoProps) {
 
   if (!card) return null;
 
-  const handleDescSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(editCard({ ...card, description: data.cardDesc }));
-    setIsEditing(false);
+  const handleTitleSubmit: SubmitHandler<FieldValues> = (data) => {
+    dispatch(editCardTitle({ id: card.id, title: data.cardTitle }));
+    setIsEditingTitle(false);
   };
 
-  const handleTitleSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(editCard({ ...card, title: data.cardTitle }));
-    setIsEditingTitle(false);
+  const handleDescSubmit: SubmitHandler<FieldValues> = (data) => {
+    dispatch(editCardDesc({ id: card.id, description: data.cardDesc }));
+    setIsEditing(false);
   };
 
   return (

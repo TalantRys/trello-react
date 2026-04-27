@@ -8,53 +8,84 @@ type CardsState = CardType;
 interface AddCommentPayload extends CommentType {
   cardId: number;
 }
+
+type CommentUpdate = Pick<AddCommentPayload, "cardId" | "id" | "text">;
+type CommentDelete = Pick<AddCommentPayload, "cardId" | "id">;
+
 const initialState: CardsState[] = cardsArr;
 
 const CardsSlice = createSlice({
   name: "cards",
   initialState,
   reducers: {
-    addCard: (state, action: PayloadAction<CardsState>) => {
-      state.push(action.payload);
+    addCard: {
+      prepare: (columnId, title, author) => ({
+        payload: {
+          id: Date.now(),
+          columnId,
+          title,
+          comments: [],
+          author,
+        },
+      }),
+      reducer: (state, action: PayloadAction<CardsState>) => {
+        state.push(action.payload);
+      },
     },
 
-    editCard: (state, action: PayloadAction<CardsState>) => {
-      const cardIndex = utils.findIndexById(state, action.payload.id);
-      if (cardIndex !== -1) state[cardIndex] = action.payload;
+    editCardTitle: (
+      state,
+      action: PayloadAction<Pick<CardsState, "id" | "title">>,
+    ) => {
+      const { id, title } = action.payload;
+      const card = utils.findById(state, id);
+      if (card) card.title = title;
+    },
+
+    editCardDesc: (
+      state,
+      action: PayloadAction<Pick<CardsState, "id" | "description">>,
+    ) => {
+      const { id, description } = action.payload;
+      const card = utils.findById(state, id);
+      if (card) card.description = description;
     },
 
     deleteCard: (state, action: PayloadAction<number>) => {
       return state.filter((card) => card.id !== action.payload);
     },
 
-    addComment: (state, action: PayloadAction<AddCommentPayload>) => {
-      const cardIndex = utils.findIndexById(state, action.payload.cardId);
-      if (cardIndex !== -1) state[cardIndex].comments.push(action.payload);
+    addComment: {
+      prepare: (cardId, text, author) => ({
+        payload: {
+          id: Date.now(),
+          cardId,
+          text,
+          author,
+        },
+      }),
+      reducer: (state, action: PayloadAction<AddCommentPayload>) => {
+        const cardIndex = utils.findIndexById(state, action.payload.cardId);
+        if (cardIndex !== -1) state[cardIndex].comments.push(action.payload);
+      },
     },
 
-    editComment: (state, action: PayloadAction<AddCommentPayload>) => {
+    editComment: (state, action: PayloadAction<CommentUpdate>) => {
       const { cardId, id, text } = action.payload;
-      const cardIndex = utils.findIndexById(state, cardId);
-      if (cardIndex !== -1) {
-        const comment = state[cardIndex].comments.find(
-          (comment) => comment.id === id,
-        );
+      const card = utils.findById(state, cardId);
+      if (card) {
+        const comment = card.comments.find((comment) => comment.id === id);
         if (comment) {
           comment.text = text;
         }
       }
     },
 
-    deleteComment: (
-      state,
-      action: PayloadAction<{ cardId: number; commentId: number }>,
-    ) => {
-      const { cardId, commentId } = action.payload;
-      const cardIndex = utils.findIndexById(state, cardId);
-      if (cardIndex !== -1) {
-        state[cardIndex].comments = state[cardIndex].comments.filter(
-          (card) => card.id !== commentId,
-        );
+    deleteComment: (state, action: PayloadAction<CommentDelete>) => {
+      const { cardId, id } = action.payload;
+      const card = utils.findById(state, cardId);
+      if (card) {
+        card.comments = card.comments.filter((card) => card.id !== id);
       }
     },
   },
@@ -62,7 +93,8 @@ const CardsSlice = createSlice({
 
 export const {
   addCard,
-  editCard,
+  editCardTitle,
+  editCardDesc,
   deleteCard,
   addComment,
   editComment,
@@ -74,8 +106,8 @@ export function selectCards(state: RootState) {
   return state.cards;
 }
 
-export function selectCardById (state: RootState, id: number) {
-  return utils.findById(state.cards, id)
+export function selectCardById(state: RootState, id: number) {
+  return utils.findById(state.cards, id);
 }
 
 export function selectComments(state: RootState, id: number) {

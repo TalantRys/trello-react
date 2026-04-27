@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { FieldValues, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../hooks/redux";
-import { deleteCard, editCard } from "../../state/cards/cardSlice";
+import { deleteCard, editCardTitle } from "../../state/cards/cardSlice";
 import type { CardType } from "../../types";
 import Button from "../ui/Button/Button";
 import EditButton from "../ui/EditButton/EditButton";
@@ -20,7 +20,7 @@ function Card({ card, onCardClick }: CardProps) {
   const dispatch = useAppDispatch();
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(editCard({ ...card, title: data.title }));
+    dispatch(editCardTitle({ id: card.id, title: data.title }));
     setIsEditing(false);
   };
 

@@ -6,7 +6,6 @@ import {
   deleteComment,
   editComment,
 } from "../../state/cards/cardSlice";
-import type { CommentType } from "../../types";
 import AddComment from "./AddComment";
 import CommentList from "./CommentList";
 import styles from "./Comments.module.scss";
@@ -20,22 +19,15 @@ const Comments: FunctionComponent<CommentsProps> = ({ cardId, author }) => {
   const dispatch = useAppDispatch();
 
   function handleAddComment(text: string) {
-    dispatch(
-      addComment({
-        id: Date.now(),
-        cardId,
-        text,
-        author,
-      }),
-    );
+    dispatch(addComment(cardId, text, author));
   }
 
-  function handleChangeComment(comment: CommentType) {
-    dispatch(editComment({ cardId, ...comment }));
+  function handleChangeComment(id: number, text: string) {
+    dispatch(editComment({ cardId, id, text }));
   }
 
-  function handleDeleteComment(commentId: number) {
-    dispatch(deleteComment({ cardId, commentId }));
+  function handleDeleteComment(id: number) {
+    dispatch(deleteComment({ cardId, id }));
   }
 
   return (

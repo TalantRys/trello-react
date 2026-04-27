@@ -12,14 +12,17 @@ const ColumnsSlice = createSlice({
   name: "columns",
   initialState,
   reducers: {
-    editTitle: (state, action: PayloadAction<ColumnsState>) => {
-      const column = utils.findById(state, action.payload.id);
-      if (column) column.title = action.payload.title;
+    editColumnTitle: {
+      reducer(state, action: PayloadAction<ColumnsState>) {
+        const column = utils.findById(state, action.payload.id);
+        if (column) column.title = action.payload.title;
+      },
+      prepare: (id: number, title: string) => ({ payload: { id, title } }),
     },
   },
 });
 
-export const { editTitle } = ColumnsSlice.actions;
+export const { editColumnTitle } = ColumnsSlice.actions;
 export default ColumnsSlice.reducer;
 
 export function selectColumns(state: RootState) {

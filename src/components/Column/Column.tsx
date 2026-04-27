@@ -3,7 +3,7 @@ import { type FieldValues, type SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { selectAuthor } from "../../state/author/authorSlice";
 import { addCard } from "../../state/cards/cardSlice";
-import { editTitle } from "../../state/columns/columnSlice";
+import { editColumnTitle } from "../../state/columns/columnSlice";
 import type { ColumnType } from "../../types";
 import Button from "../ui/Button/Button";
 import Form from "../ui/Form/Form";
@@ -26,20 +26,12 @@ export default function Column({
   const dispatch = useAppDispatch();
 
   const saveNewTitle: SubmitHandler<FieldValues> = (data) => {
-    const newTitle = { ...column, title: data.columnTitle };
-    dispatch(editTitle(newTitle));
+    dispatch(editColumnTitle(column.id, data.columnTitle));
     setIsEditTitle(false);
   };
 
   const onNewCardSubmit: SubmitHandler<FieldValues> = (data) => {
-    const newCard = {
-      id: Date.now(),
-      columnId: column.id,
-      title: data.title,
-      comments: [],
-      author: author,
-    };
-    dispatch(addCard(newCard));
+    dispatch(addCard(column.id, data.title, author));
     setIsAddingCard(false);
   };
 
