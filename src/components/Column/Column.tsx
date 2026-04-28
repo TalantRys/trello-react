@@ -1,5 +1,9 @@
 import { useState, type MouseEvent, type PropsWithChildren } from "react";
 import { type FieldValues, type SubmitHandler } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { authorSelectors } from "../../state/ducks/author";
+import { cardActions } from "../../state/ducks/cards";
+import { columnActions } from "../../state/ducks/columns";
 import type { ColumnType } from "../../types";
 import Button from "../ui/Button/Button";
 import Form from "../ui/Form/Form";
@@ -9,33 +13,25 @@ import styles from "./column.module.scss";
 
 type ColumnProps = {
   column: ColumnType;
-  onColumnChange: CallableFunction;
-  onAddCard: CallableFunction;
 };
 
 export default function Column({
   children,
   column,
-  onColumnChange,
-  onAddCard,
 }: PropsWithChildren<ColumnProps>) {
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [isAddingCard, setIsAddingCard] = useState(false);
 
+  const author = useAppSelector(authorSelectors.selectAuthor);
+  const dispatch = useAppDispatch();
+
   const saveNewTitle: SubmitHandler<FieldValues> = (data) => {
-    const newTitle = { ...column, title: data.columnTitle };
-    onColumnChange(newTitle);
+    dispatch(columnActions.editColumnTitle(column.id, data.columnTitle));
     setIsEditTitle(false);
   };
 
   const onNewCardSubmit: SubmitHandler<FieldValues> = (data) => {
-    const newCard = {
-      id: Date.now(),
-      columnId: column.id,
-      title: data.title,
-      comments: [],
-    };
-    onAddCard(newCard);
+    dispatch(cardActions.addCard(column.id, data.title, author));
     setIsAddingCard(false);
   };
 

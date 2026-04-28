@@ -1,19 +1,24 @@
 import type { FunctionComponent } from "react";
-import type { CardType } from "../../types";
+import { useAppSelector } from "../../hooks/redux";
+import { cardSelectors } from "../../state/ducks/cards";
 import Comment from "./Comment";
-import styles from './Comments.module.scss';
+import styles from "./Comments.module.scss";
 
 interface CommentListProps {
-  comments: CardType["comments"];
+  cardId: number;
   onChangeComment: CallableFunction;
   onDeleteComment: CallableFunction;
 }
 
 const CommentList: FunctionComponent<CommentListProps> = ({
-  comments,
+  cardId,
   onChangeComment,
   onDeleteComment,
 }) => {
+  const comments = useAppSelector((state) =>
+    cardSelectors.selectComments(state, cardId),
+  );
+
   return (
     !!comments.length && (
       <ul className={styles.Comments_List}>

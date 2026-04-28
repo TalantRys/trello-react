@@ -1,41 +1,29 @@
-import { type FunctionComponent } from "react";
-import type { CommentType } from "../../types";
-import AddComment from "./AddComment";
 import classNames from "classnames";
+import { type FunctionComponent } from "react";
+import { useAppDispatch } from "../../hooks/redux";
+import { cardActions } from "../../state/ducks/cards";
+import AddComment from "./AddComment";
 import CommentList from "./CommentList";
-import styles from './Comments.module.scss';
+import styles from "./Comments.module.scss";
 
 type CommentsProps = {
+  cardId: number;
   author: string;
-  comments: CommentType[];
-  onCardEdit: CallableFunction;
 };
 
-const Comments: FunctionComponent<CommentsProps> = ({
-  author,
-  comments = [],
-  onCardEdit,
-}) => {
-  
+const Comments: FunctionComponent<CommentsProps> = ({ cardId, author }) => {
+  const dispatch = useAppDispatch();
+
   function handleAddComment(text: string) {
-    onCardEdit([
-      ...comments,
-      {
-        id: Date.now(),
-        text: text,
-        author: author,
-      },
-    ]);
+    dispatch(cardActions.addComment(cardId, text, author));
   }
 
-  function handleChangeComment(nextComment: CommentType) {
-    onCardEdit(
-      comments.map((c) => (c.id === nextComment.id ? nextComment : c)),
-    );
+  function handleChangeComment(id: number, text: string) {
+    dispatch(cardActions.editComment({ cardId, id, text }));
   }
 
-  function handleDeleteComment(commentId: number) {
-    onCardEdit(comments.filter((c) => c.id !== commentId));
+  function handleDeleteComment(id: number) {
+    dispatch(cardActions.deleteComment({ cardId, id }));
   }
 
   return (
@@ -46,7 +34,7 @@ const Comments: FunctionComponent<CommentsProps> = ({
       </div>
 
       <CommentList
-        comments={comments}
+        cardId={cardId}
         onChangeComment={handleChangeComment}
         onDeleteComment={handleDeleteComment}
       />
