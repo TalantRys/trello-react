@@ -54,25 +54,20 @@ function Board() {
       </Modal>
 
       <Modal
-        title={
-          currentCard
-            ? columns.find((column) => column.id === currentCard.columnId)
-                ?.title
-            : ""
-        }
+        title={currentCard ? columns[currentCard.columnId]?.title : ""}
         isOpen={showCardModal}
         onClose={() => setShowCardModal(!showCardModal)}
         menuItems={[
           {
             name: "Delete card",
             onClick: () => {
-              dispatch(cardActions.deleteCard(currentCardId as number));
+              dispatch(cardActions.deleteCard(currentCardId!));
               setShowCardModal(!showCardModal);
             },
           },
         ]}
       >
-        {!!currentCardId && (
+        {currentCardId !== null && (
           <>
             <CardInfo cardId={currentCardId} />
             <Comments cardId={currentCardId} author={author} />
