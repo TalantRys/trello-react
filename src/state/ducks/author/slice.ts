@@ -7,7 +7,7 @@ const AuthorSlice = createSlice({
   name: "author",
   initialState,
   reducers: {
-    addName: (state, action: PayloadAction<AuthorState>) => {
+    addName: (_state, action: PayloadAction<AuthorState>) => {
       return action.payload;
     },
   },
