@@ -1,7 +1,6 @@
 import { useState, type MouseEvent, type PropsWithChildren } from "react";
 import { type FieldValues, type SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { selectAuthor } from "../../state/author/authorSlice";
 import { addCard } from "../../state/cards/cardSlice";
 import { columnActions } from "../../state/ducks/columns";
 import type { ColumnType } from "../../types";
@@ -10,6 +9,7 @@ import Form from "../ui/Form/Form";
 import Input from "../ui/Input/Input";
 import Textarea from "../ui/Textarea/Textarea";
 import styles from "./column.module.scss";
+import { authorSelectors } from "../../state/ducks/author";
 
 type ColumnProps = {
   column: ColumnType;
@@ -22,7 +22,7 @@ export default function Column({
   const [isEditTitle, setIsEditTitle] = useState(false);
   const [isAddingCard, setIsAddingCard] = useState(false);
 
-  const author = useAppSelector(selectAuthor);
+  const author = useAppSelector(authorSelectors.selectAuthor);
   const dispatch = useAppDispatch();
 
   const saveNewTitle: SubmitHandler<FieldValues> = (data) => {

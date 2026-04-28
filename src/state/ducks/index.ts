@@ -1,13 +1,13 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
 import { default as columns } from "./columns";
+import { default as author } from "./author";
 
-import AuthorReducer from "../author/authorSlice";
 import CardsReducer from "../cards/cardSlice";
 
-//TODO:refactor author and card slices
+//TODO:refactor card slices
 export default combineReducers({
   columns,
-  author: AuthorReducer,
+  author,
   cards: CardsReducer,
 });

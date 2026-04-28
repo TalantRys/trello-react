@@ -1,21 +1,21 @@
 import classNames from "classnames";
 import { type FieldValues, type SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { addName, selectAuthor } from "../../state/author/authorSlice";
 import Form from "../ui/Form/Form";
 import Input from "../ui/Input/Input";
 import styles from "./AuthorForm.module.scss";
+import { authorActions, authorSelectors } from "../../state/ducks/author";
 
 type AuthorFormProps = {
   onSubmit: () => void;
 };
 
 export default function AuthorForm({ onSubmit }: AuthorFormProps) {
-  const author = useAppSelector(selectAuthor);
+  const author = useAppSelector(authorSelectors.selectAuthor);
   const dispatch = useAppDispatch();
 
   const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(addName(data.name));
+    dispatch(authorActions.addName(data.name));
     onSubmit();
   };
 

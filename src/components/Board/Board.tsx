@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { selectAuthor } from "../../state/author/authorSlice";
 import {
   deleteCard,
   selectCardById,
@@ -16,11 +15,12 @@ import Modal from "../Modal/Modal";
 import Button from "../ui/Button/Button";
 import styles from "./board.module.scss";
 import { columnSelectors } from "../../state/ducks/columns";
+import { authorSelectors } from "../../state/ducks/author";
 
 function Board() {
   const dispatch = useAppDispatch();
 
-  const author = useAppSelector(selectAuthor);
+  const author = useAppSelector(authorSelectors.selectAuthor);
   const cards = useAppSelector(selectCards);
   const columns = useAppSelector(columnSelectors.selectColumns);
 
