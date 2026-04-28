@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { FieldValues, SubmitHandler } from "react-hook-form";
 import { useAppDispatch } from "../../hooks/redux";
-import { deleteCard, editCardTitle } from "../../state/cards/cardSlice";
+import { cardActions } from "../../state/ducks/cards";
 import type { CardType } from "../../types";
 import Button from "../ui/Button/Button";
 import EditButton from "../ui/EditButton/EditButton";
@@ -20,7 +20,7 @@ function Card({ card, onCardClick }: CardProps) {
   const dispatch = useAppDispatch();
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(editCardTitle({ id: card.id, title: data.title }));
+    dispatch(cardActions.editCardTitle({ id: card.id, title: data.title }));
     setIsEditing(false);
   };
 
@@ -74,7 +74,7 @@ function Card({ card, onCardClick }: CardProps) {
         <Button
           variant="danger"
           type="button"
-          onClick={() => dispatch(deleteCard(card.id))}
+          onClick={() => dispatch(cardActions.deleteCard(card.id))}
         >
           Delete card
         </Button>

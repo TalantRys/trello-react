@@ -11,9 +11,6 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/es/storage"; // defaults to localStorage for web
 
-// import AuthorReducer from "./author/authorSlice";
-// import ColumnsReducer from "./ducks/columns";
-// import CardsReducer from "./cards/cardSlice";
 import reducers from "./ducks";
 
 const persistConfig = {
@@ -22,11 +19,6 @@ const persistConfig = {
   whitelist: ["columns", "cards", "author"],
 };
 
-// const rootReducer = combineReducers({
-//   columns: ColumnsReducer,
-//   author: AuthorReducer,
-//   cards: CardsReducer,
-// });
 const rootReducer = reducers;
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

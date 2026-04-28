@@ -1,7 +1,8 @@
 import { useState, type MouseEvent, type PropsWithChildren } from "react";
 import { type FieldValues, type SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { addCard } from "../../state/cards/cardSlice";
+import { authorSelectors } from "../../state/ducks/author";
+import { cardActions } from "../../state/ducks/cards";
 import { columnActions } from "../../state/ducks/columns";
 import type { ColumnType } from "../../types";
 import Button from "../ui/Button/Button";
@@ -9,7 +10,6 @@ import Form from "../ui/Form/Form";
 import Input from "../ui/Input/Input";
 import Textarea from "../ui/Textarea/Textarea";
 import styles from "./column.module.scss";
-import { authorSelectors } from "../../state/ducks/author";
 
 type ColumnProps = {
   column: ColumnType;
@@ -31,7 +31,7 @@ export default function Column({
   };
 
   const onNewCardSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(addCard(column.id, data.title, author));
+    dispatch(cardActions.addCard(column.id, data.title, author));
     setIsAddingCard(false);
   };
 

@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "react";
 import { useAppSelector } from "../../hooks/redux";
-import { selectComments } from "../../state/cards/cardSlice";
+import { cardSelectors } from "../../state/ducks/cards";
 import Comment from "./Comment";
 import styles from "./Comments.module.scss";
 
@@ -15,7 +15,9 @@ const CommentList: FunctionComponent<CommentListProps> = ({
   onChangeComment,
   onDeleteComment,
 }) => {
-  const comments = useAppSelector((state) => selectComments(state, cardId));
+  const comments = useAppSelector((state) =>
+    cardSelectors.selectComments(state, cardId),
+  );
 
   return (
     !!comments.length && (

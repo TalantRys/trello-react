@@ -1,11 +1,7 @@
 import classNames from "classnames";
 import { type FunctionComponent } from "react";
 import { useAppDispatch } from "../../hooks/redux";
-import {
-  addComment,
-  deleteComment,
-  editComment,
-} from "../../state/cards/cardSlice";
+import { cardActions } from "../../state/ducks/cards";
 import AddComment from "./AddComment";
 import CommentList from "./CommentList";
 import styles from "./Comments.module.scss";
@@ -19,15 +15,15 @@ const Comments: FunctionComponent<CommentsProps> = ({ cardId, author }) => {
   const dispatch = useAppDispatch();
 
   function handleAddComment(text: string) {
-    dispatch(addComment(cardId, text, author));
+    dispatch(cardActions.addComment(cardId, text, author));
   }
 
   function handleChangeComment(id: number, text: string) {
-    dispatch(editComment({ cardId, id, text }));
+    dispatch(cardActions.editComment({ cardId, id, text }));
   }
 
   function handleDeleteComment(id: number) {
-    dispatch(deleteComment({ cardId, id }));
+    dispatch(cardActions.deleteComment({ cardId, id }));
   }
 
   return (

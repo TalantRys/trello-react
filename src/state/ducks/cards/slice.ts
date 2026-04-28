@@ -1,16 +1,12 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { CardType, CommentType } from "../../types";
-import { cardsArr } from "../../data/data";
-import type { RootState } from "../store";
-import { utils } from "../../functions";
-
-type CardsState = CardType;
-interface AddCommentPayload extends CommentType {
-  cardId: number;
-}
-
-type CommentUpdate = Pick<AddCommentPayload, "cardId" | "id" | "text">;
-type CommentDelete = Pick<AddCommentPayload, "cardId" | "id">;
+import { cardsArr } from "../../../data/data";
+import { utils } from "../../../functions";
+import type {
+  CardsState,
+  AddCommentPayload,
+  CommentUpdate,
+  CommentDelete,
+} from "./types";
 
 const initialState: CardsState[] = cardsArr;
 
@@ -91,25 +87,5 @@ const CardsSlice = createSlice({
   },
 });
 
-export const {
-  addCard,
-  editCardTitle,
-  editCardDesc,
-  deleteCard,
-  addComment,
-  editComment,
-  deleteComment,
-} = CardsSlice.actions;
+export const cardActions = CardsSlice.actions;
 export default CardsSlice.reducer;
-
-export function selectCards(state: RootState) {
-  return state.cards;
-}
-
-export function selectCardById(state: RootState, id: number) {
-  return utils.findById(state.cards, id);
-}
-
-export function selectComments(state: RootState, id: number) {
-  return utils.findById(state.cards, id)?.comments ?? [];
-}

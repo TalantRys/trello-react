@@ -1,11 +1,9 @@
 import classNames from "classnames";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import {
-  deleteCard,
-  selectCardById,
-  selectCards,
-} from "../../state/cards/cardSlice";
+import { authorSelectors } from "../../state/ducks/author";
+import { cardActions, cardSelectors } from "../../state/ducks/cards";
+import { columnSelectors } from "../../state/ducks/columns";
 import AuthorForm from "../AuthorForm/AuthorForm";
 import Card from "../Card/Card";
 import CardInfo from "../CardInfo/CardInfo";
@@ -14,14 +12,12 @@ import Comments from "../Comments/Comments";
 import Modal from "../Modal/Modal";
 import Button from "../ui/Button/Button";
 import styles from "./board.module.scss";
-import { columnSelectors } from "../../state/ducks/columns";
-import { authorSelectors } from "../../state/ducks/author";
 
 function Board() {
   const dispatch = useAppDispatch();
 
   const author = useAppSelector(authorSelectors.selectAuthor);
-  const cards = useAppSelector(selectCards);
+  const cards = useAppSelector(cardSelectors.selectCards);
   const columns = useAppSelector(columnSelectors.selectColumns);
 
   const [showModal, setShowModal] = useState(() =>
@@ -31,7 +27,9 @@ function Board() {
   const [currentCardId, setCurrentCardId] = useState<number | null>(null);
 
   const currentCard = useAppSelector((state) =>
-    currentCardId !== null ? selectCardById(state, currentCardId) : undefined,
+    currentCardId !== null
+      ? cardSelectors.selectCardById(state, currentCardId)
+      : undefined,
   );
 
   const handleAuthorFormSubmit = () => {
@@ -68,7 +66,7 @@ function Board() {
           {
             name: "Delete card",
             onClick: () => {
-              dispatch(deleteCard(currentCardId as number));
+              dispatch(cardActions.deleteCard(currentCardId as number));
               setShowCardModal(!showCardModal);
             },
           },

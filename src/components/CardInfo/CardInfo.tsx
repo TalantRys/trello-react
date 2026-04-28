@@ -2,11 +2,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import type { FieldValues, SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import {
-  editCardTitle,
-  editCardDesc,
-  selectCardById,
-} from "../../state/cards/cardSlice";
+import { cardActions, cardSelectors } from "../../state/ducks/cards";
 import Button from "../ui/Button/Button";
 import EditButton from "../ui/EditButton/EditButton";
 import Form from "../ui/Form/Form";
@@ -21,18 +17,22 @@ export default function CardInfo({ cardId }: CardInfoProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-  const card = useAppSelector((state) => selectCardById(state, cardId));
+  const card = useAppSelector((state) =>
+    cardSelectors.selectCardById(state, cardId),
+  );
   const dispatch = useAppDispatch();
 
   if (!card) return null;
 
   const handleTitleSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(editCardTitle({ id: card.id, title: data.cardTitle }));
+    dispatch(cardActions.editCardTitle({ id: card.id, title: data.cardTitle }));
     setIsEditingTitle(false);
   };
 
   const handleDescSubmit: SubmitHandler<FieldValues> = (data) => {
-    dispatch(editCardDesc({ id: card.id, description: data.cardDesc }));
+    dispatch(
+      cardActions.editCardDesc({ id: card.id, description: data.cardDesc }),
+    );
     setIsEditing(false);
   };
 
