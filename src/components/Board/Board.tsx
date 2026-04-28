@@ -7,7 +7,6 @@ import {
   selectCardById,
   selectCards,
 } from "../../state/cards/cardSlice";
-import { selectColumns } from "../../state/columns/columnSlice";
 import AuthorForm from "../AuthorForm/AuthorForm";
 import Card from "../Card/Card";
 import CardInfo from "../CardInfo/CardInfo";
@@ -16,13 +15,14 @@ import Comments from "../Comments/Comments";
 import Modal from "../Modal/Modal";
 import Button from "../ui/Button/Button";
 import styles from "./board.module.scss";
+import { columnSelectors } from "../../state/ducks/columns";
 
 function Board() {
   const dispatch = useAppDispatch();
 
   const author = useAppSelector(selectAuthor);
   const cards = useAppSelector(selectCards);
-  const columns = useAppSelector(selectColumns);
+  const columns = useAppSelector(columnSelectors.selectColumns);
 
   const [showModal, setShowModal] = useState(() =>
     author === "" ? true : false,

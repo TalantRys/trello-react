@@ -3,7 +3,7 @@ import { type FieldValues, type SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { selectAuthor } from "../../state/author/authorSlice";
 import { addCard } from "../../state/cards/cardSlice";
-import { editColumnTitle } from "../../state/columns/columnSlice";
+import { columnActions } from "../../state/ducks/columns";
 import type { ColumnType } from "../../types";
 import Button from "../ui/Button/Button";
 import Form from "../ui/Form/Form";
@@ -26,7 +26,7 @@ export default function Column({
   const dispatch = useAppDispatch();
 
   const saveNewTitle: SubmitHandler<FieldValues> = (data) => {
-    dispatch(editColumnTitle(column.id, data.columnTitle));
+    dispatch(columnActions.editColumnTitle(column.id, data.columnTitle));
     setIsEditTitle(false);
   };
 
