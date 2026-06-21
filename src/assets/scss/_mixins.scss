@@ -1,0 +1,150 @@
+// media query mixin npm
+// @use 'vars' as v;
+// @forward 'include-media/dist/include-media' with ($breakpoints: v.$breakPoints);
+
+@mixin one-value-props($val, $selectors...) {
+  @each $selector in $selectors {
+    #{$selector}: $val;
+  }
+}
+
+@mixin flex($direction: row, $jc: "", $ai: "", $gap: unset) {
+  display: flex;
+  flex-direction: $direction;
+
+  @if $gap !=unset {
+    gap: $gap;
+  }
+
+  @if $jc != "" {
+    justify-content: $jc;
+  }
+
+  @if $ai != "" {
+    align-items: $ai;
+  }
+}
+
+@mixin grid($cols, $size, $gap: unset, $jc: "", $ai: "") {
+  display: grid;
+  grid-template-columns: repeat($cols, $size);
+
+  @if $gap !=unset {
+    gap: $gap;
+  }
+
+  @if $jc != "" {
+    justify-content: $jc;
+  }
+
+  @if $ai != "" {
+    align-items: $ai;
+  }
+}
+
+@mixin grid-plus($columns, $gap: unset, $jc: "", $ai: "") {
+  display: grid;
+  grid-template-columns: $columns;
+
+  @if $gap !=unset {
+    gap: $gap;
+  }
+
+  @if $jc != "" {
+    justify-content: $jc;
+  }
+
+  @if $ai != "" {
+    align-items: $ai;
+  }
+}
+
+@mixin font-size(
+  $font-size,
+  $line-height: normal,
+  $font-weight: "",
+  $letter-spacing: normal
+) {
+  font-size: $font-size * 1px;
+  // font-size: #font-size * 0.1rem; // example using rem values and 62.5% font-size so 1rem = 1px
+
+  @if $line-height==normal {
+    line-height: normal;
+  } @else {
+    line-height: calc($line-height / $font-size);
+  }
+
+  @if $font-weight != "" {
+    font-weight: $font-weight;
+  }
+
+  @if $letter-spacing==normal {
+    letter-spacing: normal;
+  } @else {
+    letter-spacing: #{$letter-spacing / $font-size}em;
+  }
+}
+
+@mixin line-height($font-size, $line-height: normal) {
+  @if $line-height==normal {
+    line-height: normal;
+  } @else {
+    line-height: calc($line-height / ($font-size));
+  }
+}
+
+@mixin trans($elem: all, $time: 0.3s, $type: ease) {
+  transition: $elem $time $type;
+}
+
+@mixin button($pad: 11px 23px, $fz: 14, $lh: 22) {
+  text-decoration: none;
+  padding: $pad;
+  border-radius: 6px;
+  @include trans;
+  @include font-size($fz, $lh);
+  @include flex($jc: center, $ai: center, $gap: 8px);
+}
+
+@mixin title($size: 32, $lh: 38) {
+  font-weight: 700;
+  @include font-size($size, $lh);
+  padding: 0;
+}
+
+@mixin class-modify($original-class, $modifier) {
+  #{$original-class}_#{$modifier + $original-class} {
+    @content;
+  }
+}
+
+@mixin scrollbars(
+  $size,
+  $foreground-color,
+  $background-color: mix($foreground-color, white, 50%)
+) {
+  // For Google Chrome
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $background-color;
+    border-left: 1px solid $foreground-color;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $background-color;
+  }
+}
+
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  line-clamp: $lines;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}

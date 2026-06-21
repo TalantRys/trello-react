@@ -1,0 +1,42 @@
+@use "@assets/scss/bundle" as *;
+
+.modal {
+  &Card {
+    @include flex(column);
+    gap: 20px;
+  }
+
+  &Title {
+    @include line-clamp(2);
+  }
+
+  &TitleWrapper {
+    @include flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  &Desc {
+    @include flex(column);
+    gap: 10px;
+
+    &Header {
+      @include flex(row, space-between, center);
+    }
+
+    &Title {
+      font-weight: 500;
+    }
+
+    &Content {
+      word-break: break-all;
+    }
+  }
+}
+
+.author {
+  padding-top: 5px;
+  border-top: 1px solid;
+  font-size: rem(14);
+  @include line-clamp(2);
+}

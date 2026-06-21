@@ -1,0 +1,18 @@
+@use "@assets/scss/bundle" as *;
+
+.input {
+  // font-size: 0.9rem;
+  // padding: 5px;
+  // width: 100%;
+  // display: block;
+}
+.field {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  // width: 100%;
+}
+.error {
+  font-size: rem(12);
+  color: red;
+}

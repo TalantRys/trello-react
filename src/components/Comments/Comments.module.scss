@@ -1,0 +1,60 @@
+@use "@assets/scss/bundle" as *;
+
+.Comments {
+  @include flex(column);
+  gap: 20px;
+
+  &_Header {
+    h2 {
+      margin-bottom: 10px;
+    }
+  }
+
+  &_List {
+    @include flex(column);
+    gap: 10px;
+  }
+
+  &_Item {
+  }
+}
+
+.Comment {
+  // .Comment_Author
+
+  &_Author {
+    font-weight: 700;
+    @include line-clamp(1);
+  }
+
+  // .Comment_Text
+
+  &_Text {
+    border-radius: 5px;
+    background-color: var(--accent-bg);
+    padding: 5px;
+    color: #534d5b;
+    white-space: pre-line;
+    word-break: break-all;
+  }
+
+  // .Comment_Buttons
+
+  &_Buttons {
+    > :not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+
+  // .Comment_Button
+  &_Button {
+    font-size: 0.9rem;
+    background-color: initial;
+    padding: 0;
+    text-decoration: underline;
+    color: blue;
+    &:hover {
+      background-color: initial;
+    }
+  }
+}

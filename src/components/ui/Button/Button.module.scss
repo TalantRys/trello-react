@@ -1,0 +1,20 @@
+@use "@assets/scss/bundle" as *;
+@use "sass:color";
+
+.button {
+  padding: 6px 12px;
+  &:not(:disabled) {
+    &.success {
+      background-color: green;
+      &:hover {
+        background-color: color.change(green, $alpha: 0.5);
+      }
+    }
+    &.danger {
+      background-color: red;
+      &:hover {
+        background-color: color.change(red, $alpha: 0.5);
+      }
+    }
+  }
+}

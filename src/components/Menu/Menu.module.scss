@@ -1,0 +1,54 @@
+@use "@assets/scss/bundle" as *;
+
+.menu {
+  // .menu-toggle
+
+  &-toggle {
+    flex-shrink: 0;
+    padding: 3px;
+    width: 26px;
+    height: 26px;
+  }
+  // .menu__list
+
+  &__list {
+    @include flex(column, center, center);
+    border-radius: 5%;
+    border: 1px solid var(--border);
+    background-color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute; // relative to modal-header
+    right: 70px;
+    top: 100%;
+    z-index: 2;
+    box-shadow: var(--shadow);
+    transform: translateY(10%);
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+  // .menu__item
+
+  &__item {
+    @include flex(row, center, center);
+    padding: 5px 10px;
+    width: 100%;
+    &:not(:last-child) {
+      border-bottom: 1px solid gray;
+    }
+  }
+
+  // .menu__button
+
+  .button {
+    padding: 0;
+    background-color: #fff;
+    color: var(--text-h);
+  }
+}
